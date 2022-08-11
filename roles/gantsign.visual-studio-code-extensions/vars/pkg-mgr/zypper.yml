@@ -1,0 +1,7 @@
+---
+# Dependencies for Visual Studio Code cli
+visual_studio_code_extensions_dependencies:
+  - libdrm2
+  - libgbm1
+  - libxcb-dri3-0
+  - which

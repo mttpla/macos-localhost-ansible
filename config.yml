@@ -1,0 +1,125 @@
+---
+
+computername: mttPC-2020
+hostname: mttPC-2020
+user: paoli
+
+
+homebrew_taps:
+    - homebrew/core
+    - homebrew/cask
+    - homebrew/cask-drivers
+    - homebrew/cask-fonts
+    - github/gh     
+    - aws/tap
+    - kdash-rs/kdash
+
+homebrew_apps:
+    - clipy 
+    - telegram
+    - whatsapp
+    - skype
+    - discord
+    # - teamviewer ( ask a password )
+    # - zoom ( ask a password )
+    - gimp
+    - google-chrome
+    - firefox
+    # gotosign desktop, missing
+    - libreoffice
+    - sublime-text
+    - webex
+    - bitwarden 
+    - sourcetree
+    - visual-studio-code
+
+homebrew_packages:
+    - mas
+    - curl
+    - git
+    - watch
+    - zsh
+    - nvm # node
+    - python 
+    - go
+    - rust
+    - docker
+    - kubernetes-cli
+    - kubectx
+    - awscli
+    - eksctl
+    - mongosh
+    - kdash
+  # TODO mela_dev: cocoapods
+
+repositories:
+  - { name: mttpla.github.io, 
+      repo: git@github.com:mttpla, 
+      branch: master, 
+      folder: ~/Development/private,
+      key: ~/.ssh/mtt-id_rsa 
+    }
+  - { name: serverino, 
+      repo: git@github.com:mttpla, 
+      branch: main, 
+      folder: ~/Development/private,
+      key: ~/.ssh/mtt-id_rsa
+    }
+  - { name: mela, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+  - { name: mela-web-app, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+  - { name: mela-app, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+  - { name: mela-dev-ops, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+  - { name: mela-ml, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+  - { name: mela-procedures, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+  - { name: auth0-emulator, 
+      repo: git@bitbucket.org:melacodingteam, 
+      branch: master, 
+      folder: ~/Development/mela,
+      key: ~/.ssh/matteopaolimela-Bitbucket 
+    }
+
+
+vscode_exts: 
+  - donjayamanne.githistory
+  - ms-azuretools.vscode-docker
+  - golang.go
+
+
+
+# mas_common_apps:
+  # - { name: 1Blocker, id: 1107421413 }
+  # - { name: Bear, id: 1091189122 }
+  # - { name: Pages, id: 409201541 }
+  # - { name: Patterns, id: 429449079 }
+  # - { name: Tweetbot, id: 1384080005 }
+

@@ -1,0 +1,11 @@
+#zsh config file
+
+ssh-add --apple-use-keychain ~/.ssh/matteopaolimela-Bitbucket 2> /dev/null
+
+ssh-add --apple-use-keychain ~/.ssh/mtt-id_rsa 2> /dev/null
+
+PROMPT='%n@%m %/ %# '
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"

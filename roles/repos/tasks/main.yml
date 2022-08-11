@@ -1,0 +1,11 @@
+---
+
+- name: clone git repo
+  git:
+    repo: "{{ item.repo }}/{{ item.name }}.git"
+    dest: "{{ item.folder }}/{{ item.name }}"
+    update: yes
+    version: "{{ item.branch }}"
+    key_file: "{{ item.key }}"
+  loop: "{{ repositories }}"
+    
