@@ -3,7 +3,16 @@
 computername: mttPC-2020
 hostname: mttPC-2020
 user: paoli
+prompt: "'%n@%m %/ %# '"
+nvm_lines: | 
+  export NVM_DIR="$HOME/.nvm" 
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm |
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm" 
 
+ssh_keys:
+    - mtt-id_rsa
+    # - matteopaolimela-Bitbucket
+    - matteopaolimela2022-Bitbucket
 
 homebrew_taps:
     - homebrew/core
@@ -71,7 +80,7 @@ repositories:
       repo: git@bitbucket.org:melacodingteam, 
       branch: master, 
       folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+      key: ~/.ssh/matteopaolimela2022-Bitbucket
     }
   - { name: mela-web-app, 
       repo: git@bitbucket.org:melacodingteam, 

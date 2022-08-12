@@ -2,5 +2,8 @@
 
 computername: null
 hostname: null
+ssh_keys: []
+prompt: null
+nvm_lines: null
 
 

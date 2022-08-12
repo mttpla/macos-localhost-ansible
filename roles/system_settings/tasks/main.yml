@@ -1,9 +1,40 @@
 ---
 
-- name: zshrc file
-  copy:
-    src: ./zshrc
-    dest: ~/.zshrc
+- name: add prompt to zshrc file
+  blockinfile:
+    path: ~/.zshrc
+    block: "PROMPT={{ prompt }}"
+    marker: "# {mark} Prompt setting"
+    create: yes
+  when: prompt != None
+
+- name: generate SSH key 
+  openssh_keypair:
+    path: "~/.ssh/{{item}}"
+    type: rsa
+    size: 4096
+    state: present
+    force: no
+  loop: "{{ ssh_keys }}"
+   
+- name: add ssh key to zshrc file
+  blockinfile:
+    path: ~/.zshrc
+    block: |
+      ssh-add --apple-use-keychain {{ item}} 2> /dev/null
+    marker: "# {mark} SSH KEY {{ item }}"
+    create: yes
+  with_fileglob:
+    - "~/.ssh/*id_rsa"
+    - "~/.ssh/*mela*Bitbucket"
+
+- name: add nvm line to zshrc file
+  blockinfile:
+    path: ~/.zshrc
+    block: "{{ nvm_lines }}"
+    marker: "# {mark} NVM setting"
+    create: yes
+  when: nvm_lines != None
 
 - import_tasks: hostname.yml
 
