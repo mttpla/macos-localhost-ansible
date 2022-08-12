@@ -9,10 +9,19 @@ nvm_lines: |
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm |
   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm" 
 
+personal_data: &personal_data { key: "~/.ssh/mtt-id_rsa", 
+                 repo: git@github.com:mttpla,  
+                 folder: ~/Development/private
+               }
+work_data: &work_data { key: "~/.ssh/matteopaolimela2022-Bitbucket", 
+             repo: git@bitbucket.org:melacodingteam, 
+             branch: master, 
+             folder: ~/Development/mela
+           }
+
 ssh_keys:
-    - mtt-id_rsa
-    # - matteopaolimela-Bitbucket
-    - matteopaolimela2022-Bitbucket
+    - "{{ personal_data.key }}"
+    - "{{ work_data.key }}"
 
 homebrew_taps:
     - homebrew/core
@@ -64,59 +73,34 @@ homebrew_packages:
   # TODO mela_dev: cocoapods
 
 repositories:
-  - { name: mttpla.github.io, 
-      repo: git@github.com:mttpla, 
-      branch: master, 
-      folder: ~/Development/private,
-      key: ~/.ssh/mtt-id_rsa 
+  - { <<: *personal_data,
+      branch: "master",
+      name: mttpla.github.io
     }
-  - { name: serverino, 
-      repo: git@github.com:mttpla, 
-      branch: main, 
-      folder: ~/Development/private,
-      key: ~/.ssh/mtt-id_rsa
+  - { <<: *personal_data,
+      branch: "main",
+      name: serverino
     }
-  - { name: mela, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela2022-Bitbucket
+  - { <<: *work_data,
+      name: mela
     }
-  - { name: mela-web-app, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+  - { <<: *work_data,
+      name: mela-web-app  
     }
-  - { name: mela-app, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+  - { <<: *work_data,
+      name: mela-app
     }
-  - { name: mela-dev-ops, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+  - { <<: *work_data,
+      name: mela-dev-ops 
     }
-  - { name: mela-ml, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+  - { <<: *work_data,
+      name: mela-ml
     }
-  - { name: mela-procedures, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+  - { <<: *work_data,
+      name: mela-procedures
     }
-  - { name: auth0-emulator, 
-      repo: git@bitbucket.org:melacodingteam, 
-      branch: master, 
-      folder: ~/Development/mela,
-      key: ~/.ssh/matteopaolimela-Bitbucket 
+  - { <<: *work_data,
+      name: auth0-emulator
     }
 
 

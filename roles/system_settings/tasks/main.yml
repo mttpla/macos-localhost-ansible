@@ -10,7 +10,7 @@
 
 - name: generate SSH key 
   openssh_keypair:
-    path: "~/.ssh/{{item}}"
+    path: "{{item}}"
     type: rsa
     size: 4096
     state: present
