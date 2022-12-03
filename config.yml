@@ -1,120 +1,100 @@
 ---
-
 computername: mttPC-2020
 hostname: mttPC-2020
 user: paoli
 prompt: "'%n@%m %/ %# '"
-nvm_lines: | 
+nvm_lines: |
   export NVM_DIR="$HOME/.nvm" 
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm |
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm" 
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
 
-personal_data: &personal_data { key: "~/.ssh/mtt-id_rsa", 
-                 repo: git@github.com:mttpla,  
-                 folder: ~/Development/private
-               }
-work_data: &work_data { key: "~/.ssh/matteopaolimela2022-Bitbucket", 
-             repo: git@bitbucket.org:melacodingteam, 
-             branch: master, 
-             folder: ~/Development/mela
-           }
+personal_data:
+  &personal_data {
+    key: '~/.ssh/mtt-id_rsa',
+    repo: git@github.com:mttpla,
+    folder: ~/Development/private,
+  }
+work_data:
+  &work_data {
+    key: '~/.ssh/matteopaolimela2022-Bitbucket',
+    repo: git@bitbucket.org:melacodingteam,
+    branch: master,
+    folder: ~/Development/mela,
+  }
 
 ssh_keys:
-    - "{{ personal_data.key }}"
-    - "{{ work_data.key }}"
+  - '{{ personal_data.key }}'
+  - '{{ work_data.key }}'
 
 homebrew_taps:
-    - homebrew/core
-    - homebrew/cask
-    - homebrew/cask-drivers
-    - homebrew/cask-fonts
-    - github/gh     
-    - aws/tap
-    - kdash-rs/kdash
+  - homebrew/core
+  - homebrew/cask
+  - homebrew/cask-drivers
+  - homebrew/cask-fonts
+  - github/gh
+  - aws/tap
+  - kdash-rs/kdash
 
 homebrew_apps:
-    - clipy 
-    - telegram
-    - whatsapp
-    - skype
-    - discord
-    # - teamviewer ( ask a password )
-    # - zoom ( ask a password )
-    - gimp
-    - google-chrome
-    - firefox
-    # gotosign desktop, missing
-    - libreoffice
-    - sublime-text
-    - webex
-    - bitwarden 
-    - sourcetree
-    - visual-studio-code
+  - clipy
+  - telegram
+  - whatsapp
+  - skype
+  - discord
+  # - teamviewer ( ask a password )
+  # - zoom ( ask a password )
+  - gimp
+  - google-chrome
+  - firefox
+  # gotosign desktop, missing
+  - libreoffice
+  - sublime-text
+  - webex
+  - bitwarden
+  - sourcetree
+  - visual-studio-code
+  - kindle
 
 homebrew_packages:
-    - mas
-    - curl
-    - git
-    - watch
-    - zsh
-    - nvm # node
-    - python 
-    - go
-    - rust
-    - docker
-    - kubernetes-cli
-    - kubectx
-    - awscli
-    - eksctl
-    - mongosh
-    - kdash
-    - m-cli
-    - dockutil
+  - mas
+  - curl
+  - git
+  - watch
+  - zsh
+  - nvm # node
+  - python
+  - go
+  - rust
+  - docker
+  - kubernetes-cli
+  - kubectx
+  - awscli
+  - eksctl
+  - mongosh
+  - kdash
+  - m-cli
+  - dockutil
   # TODO mela_dev: cocoapods
 
 repositories:
-  - { <<: *personal_data,
-      branch: "master",
-      name: mttpla.github.io
-    }
-  - { <<: *personal_data,
-      branch: "main",
-      name: serverino
-    }
-  - { <<: *work_data,
-      name: mela
-    }
-  - { <<: *work_data,
-      name: mela-web-app  
-    }
-  - { <<: *work_data,
-      name: mela-app
-    }
-  - { <<: *work_data,
-      name: mela-dev-ops 
-    }
-  - { <<: *work_data,
-      name: mela-ml
-    }
-  - { <<: *work_data,
-      name: mela-procedures
-    }
-  - { <<: *work_data,
-      name: auth0-emulator
-    }
+  - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
+  - { <<: *personal_data, branch: 'main', name: serverino }
+  - { <<: *work_data, name: mela }
+  - { <<: *work_data, name: mela-web-app }
+  - { <<: *work_data, name: mela-app }
+  - { <<: *work_data, name: mela-dev-ops }
+  - { <<: *work_data, name: mela-ml }
+  - { <<: *work_data, name: mela-procedures }
+  - { <<: *work_data, name: auth0-emulator }
 
-
-vscode_exts: 
+vscode_exts:
   - donjayamanne.githistory
   - ms-azuretools.vscode-docker
   - golang.go
-
-
-
 # mas_common_apps:
-  # - { name: 1Blocker, id: 1107421413 }
-  # - { name: Bear, id: 1091189122 }
-  # - { name: Pages, id: 409201541 }
-  # - { name: Patterns, id: 429449079 }
-  # - { name: Tweetbot, id: 1384080005 }
+# - { name: 1Blocker, id: 1107421413 }
+# - { name: Bear, id: 1091189122 }
+# - { name: Pages, id: 409201541 }
+# - { name: Patterns, id: 429449079 }
+# - { name: Tweetbot, id: 1384080005 }
 
