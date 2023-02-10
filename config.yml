@@ -34,6 +34,7 @@ homebrew_taps:
   - github/gh
   - aws/tap
   - kdash-rs/kdash
+  - cargo-lambda/cargo-lambda
 
 homebrew_apps:
   - clipy
@@ -64,7 +65,7 @@ homebrew_packages:
   - nvm # node
   - python
   - go
-  - rust
+  - rustup-init
   - docker
   - kubernetes-cli
   - kubectx
@@ -75,6 +76,7 @@ homebrew_packages:
   - m-cli
   - dockutil
   # TODO mela_dev: cocoapods
+  - cargo-lambda
 
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
