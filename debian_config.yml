@@ -1,0 +1,6 @@
+---
+packages:
+  - emacs
+  - x11-common
+  - xserver-xorg
+  - gnome

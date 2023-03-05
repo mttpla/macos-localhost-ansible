@@ -1,0 +1,17 @@
+---
+- hosts: mttRemoteDesktop
+  remote_user: admin
+
+  become: true
+  become_user: root
+
+  pre_tasks:
+    - name: Include configuration
+      include_vars: '{{ item }}'
+      with_first_found:
+        - files:
+            - debian_config.yml
+          skip: true
+
+  roles:
+    - role: debian_system

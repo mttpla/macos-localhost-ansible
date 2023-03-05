@@ -1,0 +1,56 @@
+---
+- name: Update apt repo and cache on all Debian/Ubuntu boxes
+  apt: update_cache=yes
+    force_apt_get=yes
+    cache_valid_time=3600
+
+- name: Upgrade all packages on servers
+  apt: upgrade=dist
+    force_apt_get=yes
+
+- name: Check if a reboot is needed on all servers
+  register: reboot_required_file
+  stat: path=/var/run/reboot-required get_md5=no
+
+- name: Reboot the box if kernel updated
+  reboot:
+    msg: 'Reboot initiated by Ansible for kernel updates'
+    connect_timeout: 5
+    reboot_timeout: 300
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: uptime
+  when: reboot_required_file.stat.exists
+
+- name: set X11Forwarding in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^.X11Forwarding'
+    line: X11Forwarding yes
+  register: sshd_config
+
+- name: set X11DisplayOffset 10 in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^.X11DisplayOffset'
+    line: X11DisplayOffset 10
+  register: sshd_config
+
+- name: set X11UseLocalhost no in sshd_config
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^.X11UseLocalhost'
+    line: X11UseLocalhost no
+  register: sshd_config
+
+- name: Stop and Start ssh
+  service:
+    name: ssh
+    state: restarted
+  when: sshd_config.changed
+
+- name: add packages
+  ansible.builtin.apt:
+    name: '{{ item }}'
+    state: present
+  loop: '{{ packages }}'
