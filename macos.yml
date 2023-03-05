@@ -1,13 +1,12 @@
 ---
-
 - hosts: localhost
 
   pre_tasks:
     - name: Include configuration
-      include_vars: "{{ item }}"
+      include_vars: '{{ item }}'
       with_first_found:
         - files:
-            - config.yml
+            - macos_config.yml
           skip: true
 
   roles:
@@ -16,11 +15,6 @@
     - role: repos
     - role: gantsign.visual-studio-code-extensions
       users:
-        - username: "{{ user }}"
-          visual_studio_code_extensions: "{{ vscode_exts }}"
+        - username: '{{ user }}'
+          visual_studio_code_extensions: '{{ vscode_exts }}'
           visual_studio_code_extensions_absent: []
-
-
-
-      
-  

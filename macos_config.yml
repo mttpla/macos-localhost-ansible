@@ -35,6 +35,7 @@ homebrew_taps:
   - aws/tap
   - kdash-rs/kdash
   - cargo-lambda/cargo-lambda
+  - messense/macos-cross-toolchains
 
 homebrew_apps:
   - clipy
@@ -77,6 +78,7 @@ homebrew_packages:
   - dockutil
   # TODO mela_dev: cocoapods
   - cargo-lambda
+  - aarch64-unknown-linux-gnu
 
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
