@@ -25,29 +25,23 @@
 - name: set X11Forwarding in sshd_config
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: '^.X11Forwarding'
+    regexp: '^X11Forwarding'
     line: X11Forwarding yes
-  register: sshd_config
+  notify: restart_ssh
 
 - name: set X11DisplayOffset 10 in sshd_config
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^.X11DisplayOffset'
     line: X11DisplayOffset 10
-  register: sshd_config
+  notify: restart_ssh
 
 - name: set X11UseLocalhost no in sshd_config
   ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: '^.X11UseLocalhost'
     line: X11UseLocalhost no
-  register: sshd_config
-
-- name: Stop and Start ssh
-  service:
-    name: ssh
-    state: restarted
-  when: sshd_config.changed
+  notify: restart_ssh
 
 - name: add packages
   ansible.builtin.apt:
