@@ -1,17 +1,16 @@
 ---
 - hosts: mttRemoteDesktop
-  remote_user: admin
-
-  become: true
-  become_user: root
 
   pre_tasks:
     - name: Include configuration
-      include_vars: '{{ item }}'
-      with_first_found:
-        - files:
-            - debian_config.yml
-          skip: true
+      include_vars:
+        file: debian_config.yml
+        name: config
+    - name: Include secret configuration
+      include_vars:
+        file: ansible_secrets.yml
+        name: secret
 
   roles:
     - role: debian_system
+    - role: debian_xrdp

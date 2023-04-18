@@ -1,0 +1,22 @@
+---
+- name: add xrdp package
+  ansible.builtin.apt:
+    name: '{{ item }}'
+    state: present
+  loop: '{{ xrdpPackages }}'
+
+- name: Add the user 'xrdp' to the group 'ssl-cert'
+  ansible.builtin.user:
+    name: xrdp
+    groups: ssl-cert
+    append: yes
+
+- name: Add fix for black screen
+  ansible.builtin.blockinfile:
+    path: /etc/xrdp/startwm.sh
+    insertafter: '# published under The MirOS Licence'
+    marker: '# {mark} ANSIBLE MANAGED BLOCK '
+    block: |
+      Unset DBUS_SESSION_ADDRESS
+      Unset XDG_RUNTIME_DIR
+  notify: restart_xrdp

@@ -1,6 +1,13 @@
 ---
+hostname: mttServer-2023
+remote_user: admin
+become: true
+become_user: root
+
 packages:
   - emacs
+  - nmap
+  - traceroute
   - x11-common
   - xserver-xorg
   - gnome

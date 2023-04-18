@@ -3,3 +3,8 @@
   service:
     name: ssh
     state: restarted
+
+- name: restart_xrdp
+  service:
+    name: xrdp
+    state: restarted
