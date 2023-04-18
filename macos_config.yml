@@ -56,6 +56,7 @@ homebrew_apps:
   - sourcetree
   - visual-studio-code
   - kindle
+  - microsoft-remote-desktop
 
 homebrew_packages:
   - mas
@@ -79,6 +80,7 @@ homebrew_packages:
   # TODO mela_dev: cocoapods
   - cargo-lambda
   - aarch64-unknown-linux-gnu
+  - nmap
 
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
