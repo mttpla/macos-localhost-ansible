@@ -8,6 +8,5 @@ allow_world_readable_tmpfiles=true
 [aws_ec2_debian]
 mttRemoteDesktop ansible_ssh_private_key_file=~/.ssh/mttRemoteDesktop.pem ansible_host=ec2-52-57-18-160.eu-central-1.compute.amazonaws.com
 
-aws ec2 describe-instances --instance-ids $instance_id \
-    --query 'Reservations[*].Instances[*].PublicIpAddress' \
-    --output text
+# note how to get the dynamic aws ec2 ip
+#aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[*].Instances[*].PublicIpAddress' --output text
