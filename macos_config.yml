@@ -59,6 +59,7 @@ homebrew_apps:
   - kindle
   - microsoft-remote-desktop
   - firefox-developer-edition
+  - openvpn-connect
 
 homebrew_packages:
   - mas
@@ -83,6 +84,9 @@ homebrew_packages:
   - cargo-lambda
   - aarch64-unknown-linux-gnu
   - nmap
+  - openjdk
+  - openjdk@11
+  - openjdk@17
 
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
