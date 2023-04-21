@@ -44,6 +44,7 @@ homebrew_apps:
   - whatsapp
   - skype
   - discord
+  - youtube-dl
   # - teamviewer ( ask a password )
   # - zoom ( ask a password )
   - gimp
