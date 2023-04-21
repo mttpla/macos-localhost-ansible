@@ -26,31 +26,50 @@ ssh_keys:
   - '{{ personal_data.key }}'
   - '{{ work_data.key }}'
 
+dock:
+  position: BOTTOM
+  size: 40
+  apps:
+    - { name: Terminal, path: /System/Applications/Utilities/Terminal.app }
+    - { name: 'Google Chrome', path: '/Applications/Google Chrome.app' }
+    - {
+        name: 'Visual Studio Code',
+        path: '/Applications/Visual Studio Code.app',
+      }
+    - { name: 'MongoDB Compass', path: '/Applications/MongoDB Compass.app' }
+    - { name: Sourcetree, path: /Applications/Sourcetree.app }
+    - { name: Telegram, path: /Applications/Telegram.app }
+    - { name: WhatsApp, path: /Applications/WhatsApp.app }
+
+finder:
+  showDriveOnDestktop: 'true'
+  showHiddenFiles: 'true'
+  showFilesExtentions: 'true'
+  showStatusBarInFinder: 'true'
+  showPathBarInFinder: 'true'
+
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
   - homebrew/cask-drivers
   - homebrew/cask-fonts
+  - homebrew/cask-versions
   - github/gh
   - aws/tap
   - kdash-rs/kdash
   - cargo-lambda/cargo-lambda
   - messense/macos-cross-toolchains
-  - homebrew/cask-versions
 
 homebrew_apps:
+  - hpedrorodrigues/tools/dockutil
   - clipy
   - telegram
   - whatsapp
   - skype
   - discord
-  - youtube-dl
-  # - teamviewer ( ask a password )
-  # - zoom ( ask a password )
   - gimp
   - google-chrome
   - firefox
-  # gotosign desktop, missing
   - libreoffice
   - sublime-text
   - webex
@@ -61,7 +80,10 @@ homebrew_apps:
   - microsoft-remote-desktop
   - firefox-developer-edition
   - openvpn-connect
-  - hpedrorodrigues/tools/dockutil
+  # todo
+  # - gotosign desktop, missing
+  # - teamviewer ( ask a password )
+  # - zoom ( ask a password )
 
 homebrew_packages:
   # macos specific
@@ -73,6 +95,8 @@ homebrew_packages:
   - watch
   - zsh
   - nmap
+  - openssl@3
+  - youtube-dl
   # dev
   - nvm # node
   - python

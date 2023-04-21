@@ -10,11 +10,11 @@
           skip: true
 
   roles:
-    - role: system_settings
     - role: homebrew
+    - role: system_settings
     - role: repos
-    - role: gantsign.visual-studio-code-extensions
-      users:
-        - username: '{{ user }}'
-          visual_studio_code_extensions: '{{ vscode_exts }}'
-          visual_studio_code_extensions_absent: []
+    # - role: gantsign.visual-studio-code-extensions
+    #   users:
+    #     - username: '{{ user }}'
+    #       visual_studio_code_extensions: '{{ vscode_exts }}'
+    #       visual_studio_code_extensions_absent: []

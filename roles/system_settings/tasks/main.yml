@@ -1,41 +1,40 @@
 ---
-
 - name: add prompt to zshrc file
   blockinfile:
     path: ~/.zshrc
-    block: "PROMPT={{ prompt }}"
-    marker: "# {mark} Prompt setting"
+    block: 'PROMPT={{ prompt }}'
+    marker: '# {mark} Prompt setting'
     create: yes
   when: prompt != None
 
-- name: generate SSH key 
+- name: generate SSH key
   openssh_keypair:
-    path: "{{item}}"
+    path: '{{item}}'
     type: rsa
     size: 4096
     state: present
     force: no
-  loop: "{{ ssh_keys }}"
-   
+  loop: '{{ ssh_keys }}'
+
 - name: add ssh key to zshrc file
   blockinfile:
     path: ~/.zshrc
     block: |
       ssh-add --apple-use-keychain {{ item}} 2> /dev/null
-    marker: "# {mark} SSH KEY {{ item }}"
+    marker: '# {mark} SSH KEY {{ item }}'
     create: yes
   with_fileglob:
-    - "~/.ssh/*id_rsa"
-    - "~/.ssh/*mela*Bitbucket"
+    - '~/.ssh/*id_rsa'
+    - '~/.ssh/*mela*Bitbucket'
 
 - name: add nvm line to zshrc file
   blockinfile:
     path: ~/.zshrc
-    block: "{{ nvm_lines }}"
-    marker: "# {mark} NVM setting"
+    block: '{{ nvm_lines }}'
+    marker: '# {mark} NVM setting'
     create: yes
   when: nvm_lines != None
 
 - import_tasks: hostname.yml
-
-
+- import_tasks: finder.yml
+- import_tasks: dock.yml
