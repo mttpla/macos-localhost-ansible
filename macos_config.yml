@@ -62,29 +62,32 @@ homebrew_apps:
   - openvpn-connect
 
 homebrew_packages:
+  # macos specific
   - mas
+  - m-cli
+  # utility
   - curl
   - git
   - watch
   - zsh
+  - nmap
+  # dev
   - nvm # node
   - python
   - go
+  - openjdk
   - rustup-init
+  - cargo-lambda
+  - aarch64-unknown-linux-gnu
+  - mongosh
+  # dev-ops
   - docker
   - kubernetes-cli
   - kubectx
   - awscli
   - eksctl
-  - mongosh
   - kdash
-  - m-cli
-  - dockutil
-  # TODO mela_dev: cocoapods
-  - cargo-lambda
-  - aarch64-unknown-linux-gnu
-  - nmap
-  - openjdk
+  # extra dev
   - openjdk@11
   - openjdk@17
 
