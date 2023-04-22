@@ -76,16 +76,17 @@ homebrew_apps:
   - bitwarden
   - sourcetree
   - visual-studio-code
+  - intellij-idea
   - kindle
   - microsoft-remote-desktop
   - firefox-developer-edition
   - openvpn-connect
   - postman
   - drawio
+  - teamviewer
+  - zoom
   # todo
   # - gotosign desktop, missing
-  # - teamviewer ( ask a password )
-  # - zoom ( ask a password )
 
 homebrew_packages:
   # macos specific
