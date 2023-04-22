@@ -80,6 +80,9 @@ homebrew_apps:
   - microsoft-remote-desktop
   - firefox-developer-edition
   - openvpn-connect
+  - postman
+  - p7zip
+  - drawio
   # todo
   # - gotosign desktop, missing
   # - teamviewer ( ask a password )
