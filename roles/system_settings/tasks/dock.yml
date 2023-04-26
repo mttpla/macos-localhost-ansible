@@ -2,21 +2,11 @@
 #- name: Remove all items from the Dock
 # shell: /usr/local/bin/dockutil --remove all
 
-- name: Check the size of the Dock
-  shell: defaults read com.apple.dock tilesize
-  register: dockSize
-
 - name: Reduce the size of the Dock to x points
   shell: defaults write com.apple.dock tilesize -int {{dock.size}}
-  when: dockSize.stdout | int != dock.size | int
-
-- name: Check the Dock Position
-  shell: /usr/local/bin/m dock position
-  register: dockPosition
 
 - name: Show the Dock on position
   shell: /usr/local/bin/m dock position {{dock.position}}
-  when: dock.position not in dockPosition.stdout.upper()
 
 - name: Set the default Dock items
   shell: /usr/local/bin/dockutil --add "{{item.path}}" --replacing "{{item.name}}"
