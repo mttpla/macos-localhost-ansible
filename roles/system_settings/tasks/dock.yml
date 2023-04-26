@@ -5,6 +5,25 @@
 - name: Reduce the size of the Dock to x points
   shell: defaults write com.apple.dock tilesize -int {{dock.size}}
 
+# Allowed code:
+# 0: No Option
+# 2: Mission Control
+# 3: Show application windows
+# 4: Desktop
+# 5: Start screen saver
+# 6: Disable screen saver
+# 7: Dashboard
+# 10: Put display to sleep
+# 11: Launchpad
+# 12: Notification Center
+# 13: Lock Screen
+- name: Set the hot corners
+  shell: |
+    defaults write com.apple.dock wvous-tl-corner -int {{dock.hotCorners.topLeft}}
+    defaults write com.apple.dock wvous-tr-corner -int {{dock.hotCorners.topRight}}
+    defaults write com.apple.dock wvous-br-corner -int {{dock.hotCorners.bottomRight}}
+    defaults write com.apple.dock wvous-bl-corner -int {{dock.hotCorners.bottomLeft}}
+
 - name: Show the Dock on position
   shell: /usr/local/bin/m dock position {{dock.position}}
 

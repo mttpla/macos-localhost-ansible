@@ -29,6 +29,12 @@ ssh_keys:
 dock:
   position: BOTTOM
   size: 40
+  hotCorners:
+    topLeft: 2
+    topRight: 2
+    bottomRight: 2
+    bottomLeft: 2
+
   apps:
     - { name: Terminal, path: /System/Applications/Utilities/Terminal.app }
     - { name: 'Google Chrome', path: '/Applications/Google Chrome.app' }
