@@ -91,6 +91,7 @@ homebrew_apps:
   - drawio
   - teamviewer
   - zoom
+  - obsidian
   # todo
   # - gotosign desktop, missing
 
@@ -122,6 +123,7 @@ homebrew_packages:
   - awscli
   - eksctl
   - kdash
+  - syncthing
   # extra dev
   - openjdk@11
   - openjdk@17
