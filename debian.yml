@@ -12,5 +12,5 @@
         name: secret
 
   roles:
-    - role: debian_system
-    - role: debian_xrdp
+    - role: debian/system
+    - role: debian/xrdp

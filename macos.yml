@@ -10,8 +10,8 @@
           skip: true
 
   roles:
-    - role: homebrew
-    - role: system_settings
+    - role: macos/homebrew
+    - role: macos/system_settings
     - role: repos
     # - role: gantsign.visual-studio-code-extensions
     #   users:
