@@ -34,6 +34,9 @@ Connect using ssh:
 
 ### Note
 
+#### how to get the dynamic aws ec2 ip
+
+`aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[*].Instances[*].PublicIpAddress' --output text`
 
 
 ## Acknowledgements
