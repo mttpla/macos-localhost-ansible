@@ -10,8 +10,7 @@
 - name: generate SSH key
   openssh_keypair:
     path: '{{item}}'
-    type: rsa
-    size: 4096
+    type: ed25519
     state: present
     force: no
   loop: '{{ ssh_keys }}'
@@ -20,12 +19,12 @@
   blockinfile:
     path: ~/.zshrc
     block: |
-      ssh-add --apple-use-keychain {{ item}} 2> /dev/null
+      ssh-add {{ item}} 2> /dev/null
     marker: '# {mark} SSH KEY {{ item }}'
     create: yes
   with_fileglob:
+    - '~/.ssh/*id_ed25519'
     - '~/.ssh/*id_rsa'
-    - '~/.ssh/*mela*Bitbucket'
 
 - name: add nvm line to zshrc file
   blockinfile:

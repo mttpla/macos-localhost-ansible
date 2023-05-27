@@ -1,6 +1,6 @@
 ---
-computername: mttPC-2020
-hostname: mttPC-2020
+computername: mttPC-2023
+hostname: mttPC-2023
 user: paoli
 prompt: "'%n@%m %/ %# '"
 nvm_lines: |
@@ -10,21 +10,22 @@ nvm_lines: |
 
 personal_data:
   &personal_data {
-    key: '~/.ssh/mtt-id_rsa',
+    key: '~/.ssh/mtt-id_ed25519',
     repo: git@github.com:mttpla,
-    folder: ~/Development/private,
+    folder: ~/private,
   }
-work_data:
-  &work_data {
-    key: '~/.ssh/matteopaolimela2022-Bitbucket',
-    repo: git@bitbucket.org:melacodingteam,
-    branch: master,
-    folder: ~/Development/mela,
-  }
+# work_data:
+#   &work_data {
+#     key: '~/.ssh/matteopaolimela2022-Bitbucket',
+#     repo: git@bitbucket.org:melacodingteam,
+#     branch: master,
+#     folder: ~/Development/mela,
+#   }
 
 ssh_keys:
   - '{{ personal_data.key }}'
-  - '{{ work_data.key }}'
+ # - '{{ work_data.key }}'
+ 
 
 dock:
   position: BOTTOM
@@ -38,12 +39,6 @@ dock:
   apps:
     - { name: Terminal, path: /System/Applications/Utilities/Terminal.app }
     - { name: 'Google Chrome', path: '/Applications/Google Chrome.app' }
-    - {
-        name: 'Visual Studio Code',
-        path: '/Applications/Visual Studio Code.app',
-      }
-    - { name: 'MongoDB Compass', path: '/Applications/MongoDB Compass.app' }
-    - { name: Sourcetree, path: /Applications/Sourcetree.app }
     - { name: Telegram, path: /Applications/Telegram.app }
     - { name: WhatsApp, path: /Applications/WhatsApp.app }
 
@@ -131,18 +126,7 @@ homebrew_packages:
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
   - { <<: *personal_data, branch: 'main', name: serverino }
-  - { <<: *work_data, name: mela }
-  - { <<: *work_data, name: mela-web-app }
-  - { <<: *work_data, name: mela-app }
-  - { <<: *work_data, name: mela-dev-ops }
-  - { <<: *work_data, name: mela-ml }
-  - { <<: *work_data, name: mela-procedures }
-  - { <<: *work_data, name: auth0-emulator }
-
-vscode_exts:
-  - donjayamanne.githistory
-  - ms-azuretools.vscode-docker
-  - golang.go
+ 
 # mas_common_apps:
 # - { name: 1Blocker, id: 1107421413 }
 # - { name: Bear, id: 1091189122 }
