@@ -5,18 +5,19 @@
 ### Ansible installation on MacOs localhost
 
 1. Run xcode-select --install
-2. SSH keys: save the public and private ssh key in `~/.ssh`
+2. SSH keys: save the public and private ssh key in `~/.ssh` (if needed add the key at ssh-agent)
 3. Install [Homebrew](https://brew.sh). `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" `
 4. Update the .zprofile. Run the command in "Next Steps". Add the `eval "$(/opt/homebrew/bin/brew shellenv)")`
 5. Install Python (`brew install python3`)
-6. Install Ansible (`brew install ansible`)
+6. Install Ansible (`brew install ansible`) 
 7. [Optional] Install visual-studio-code-extentions (`ansible-galaxy install gantsign.visual-studio-code-extensions`)
+8. run git clone
 
 ## Playbook: MacOs localhost
 
 1. Edit `macos_config.yml`
 2. Edit the file `ansible_secrets.yml` following the `ansible_secrets_example.yml` file
-3. Run `ansible-playbook macos.yml`
+3. Run `ansible-playbook macos.yml --ask-become-pass`
 
 ## Playbook: Debian on AWS ECS
 
