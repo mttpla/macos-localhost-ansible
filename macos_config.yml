@@ -49,6 +49,9 @@ finder:
   showStatusBarInFinder: 'true'
   showPathBarInFinder: 'true'
 
+terminal:
+  profile: 'Homebrew'
+
 homebrew_taps:
   - homebrew/core
   - homebrew/cask
