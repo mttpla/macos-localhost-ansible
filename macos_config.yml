@@ -91,7 +91,8 @@ homebrew_apps:
   - zoom
   - obsidian
   - miro
-  - temurin8 #jdk8 
+  - temurin8 #jdk8
+  - docker
   # todo
   # - gotosign desktop, missing
 
@@ -117,7 +118,6 @@ homebrew_packages:
   - aarch64-unknown-linux-gnu
   - mongosh
   # dev-ops
-  - docker
   - kubernetes-cli
   - kubectx
   - awscli
