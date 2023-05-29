@@ -14,17 +14,10 @@ personal_data:
     repo: git@github.com:mttpla,
     folder: ~/private,
   }
-# work_data:
-#   &work_data {
-#     key: '~/.ssh/matteopaolimela2022-Bitbucket',
-#     repo: git@bitbucket.org:melacodingteam,
-#     branch: master,
-#     folder: ~/Development/mela,
-#   }
 
 ssh_keys:
   - '{{ personal_data.key }}'
- # - '{{ work_data.key }}'
+  - '~/.ssh/ws-github-id_ed25519'
  
 
 dock:
