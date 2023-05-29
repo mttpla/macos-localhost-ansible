@@ -90,6 +90,8 @@ homebrew_apps:
   - teamviewer
   - zoom
   - obsidian
+  - miro
+  - temurin8 #jdk8 
   # todo
   # - gotosign desktop, missing
 
@@ -125,6 +127,7 @@ homebrew_packages:
   # extra dev
   - openjdk@11
   - openjdk@17
+  
 
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
