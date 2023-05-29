@@ -73,7 +73,7 @@ homebrew_apps:
   - bitwarden
   - sourcetree
   - visual-studio-code
-  - intellij-idea
+  - intellij-idea-ce
   - kindle
   - microsoft-remote-desktop
   - firefox-developer-edition
