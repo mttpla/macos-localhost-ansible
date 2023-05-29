@@ -7,6 +7,12 @@ nvm_lines: |
   export NVM_DIR="$HOME/.nvm" 
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm |
   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+ruby_version: "3.2.2"
+chruby_lines: |
+  source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
+  source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+  chruby ruby-{{ ruby_version }}
+
 
 personal_data:
   &personal_data {
@@ -120,6 +126,9 @@ homebrew_packages:
   # extra dev
   - openjdk@11
   - openjdk@17
+  - chruby 
+  - ruby-install
+  
   
 
 repositories:

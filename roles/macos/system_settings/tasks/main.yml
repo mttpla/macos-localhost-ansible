@@ -34,6 +34,14 @@
     create: yes
   when: nvm_lines != None
 
+- name: add chruby to zshrc file
+  blockinfile:
+    path: ~/.zshrc
+    block: '{{ chruby_lines }}'
+    marker: '# {mark} chruby'
+    create: yes
+  when: chruby_lines != None
+
 - name: Set terminal profile
   shell: defaults write com.apple.Terminal 'Default Window Settings' {{terminal.profile}}
 
