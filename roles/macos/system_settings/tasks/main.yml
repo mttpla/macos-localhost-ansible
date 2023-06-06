@@ -42,6 +42,14 @@
     create: yes
   when: chruby_lines != None
 
+- name: add postgresql15 export path  to zshrc file
+  blockinfile:
+    path: ~/.zshrc
+    block: '{{ postgresql15_lines }}'
+    marker: '# {mark} postgresql15'
+    create: yes
+  when: postgresql15_lines != None
+
 - name: Set terminal profile
   shell: defaults write com.apple.Terminal 'Default Window Settings' {{terminal.profile}}
 
