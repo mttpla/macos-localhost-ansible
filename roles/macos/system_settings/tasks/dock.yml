@@ -27,6 +27,6 @@
 - name: Show the Dock on position
   shell: m dock position {{dock.position}}
 
-- name: Set the default Dock items
-  shell: dockutil --add "{{item.path}}" --replacing "{{item.name}}"
-  loop: '{{dock.apps}}'
+#- name: Set the default Dock items
+#  shell: dockutil --add "{{item.path}}" --replacing "{{item.name}}"
+#  loop: '{{dock.apps}}'
