@@ -5,8 +5,8 @@ user: paoli
 prompt: "'%n@%m %/ %# '"
 nvm_lines: |
   export NVM_DIR="$HOME/.nvm" 
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm |
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 ruby_version: "3.2.2"
 chruby_lines: |
   source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
@@ -65,7 +65,7 @@ homebrew_taps:
   - messense/macos-cross-toolchains
 
 homebrew_apps:
-  - hpedrorodrigues/tools/dockutil
+  # - dockutil need to be fixed
   - clipy
   - telegram
   - whatsapp
@@ -136,6 +136,7 @@ homebrew_packages:
 repositories:
   - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
   - { <<: *personal_data, branch: 'main', name: serverino }
+  - { <<: *personal_data, branch: 'main', name: techJournal }
  
 # mas_common_apps:
 # - { name: 1Blocker, id: 1107421413 }
