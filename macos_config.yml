@@ -4,7 +4,7 @@ hostname: mttPC-2023
 user: paoli
 prompt: "'%n@%m %/ %# '"
 nvm_lines: |
-  export NVM_DIR="$HOME/.nvm" 
+  export NVM_DIR="$HOME/.nvm"
    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
   [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 ruby_version: "3.2.2"
@@ -17,15 +17,14 @@ postgresql15_lines: |
 
 personal_data:
   &personal_data {
-    key: '~/.ssh/mtt-id_ed25519',
+    key: "~/.ssh/mtt-id_ed25519",
     repo: git@github.com:mttpla,
     folder: ~/private,
   }
 
 ssh_keys:
-  - '{{ personal_data.key }}'
-  - '~/.ssh/ws-github-id_ed25519'
- 
+  - "{{ personal_data.key }}"
+  - "~/.ssh/ws-github-id_ed25519"
 
 dock:
   position: BOTTOM
@@ -38,19 +37,19 @@ dock:
 
   apps:
     - { name: Terminal, path: /System/Applications/Utilities/Terminal.app }
-    - { name: 'Google Chrome', path: '/Applications/Google Chrome.app' }
+    - { name: "Google Chrome", path: "/Applications/Google Chrome.app" }
     - { name: Telegram, path: /Applications/Telegram.app }
     - { name: WhatsApp, path: /Applications/WhatsApp.app }
 
 finder:
-  showDriveOnDestktop: 'true'
-  showHiddenFiles: 'true'
-  showFilesExtentions: 'true'
-  showStatusBarInFinder: 'true'
-  showPathBarInFinder: 'true'
+  showDriveOnDestktop: "true"
+  showHiddenFiles: "true"
+  showFilesExtentions: "true"
+  showStatusBarInFinder: "true"
+  showPathBarInFinder: "true"
 
 terminal:
-  profile: 'Homebrew'
+  profile: "Homebrew"
 
 homebrew_taps:
   - homebrew/core
@@ -128,22 +127,20 @@ homebrew_packages:
   # extra dev
   - openjdk@11
   - openjdk@17
-  - chruby 
+  - chruby
   - ruby-install
   - minikube
   - codex
-  
-  
+  - zed
 
 repositories:
-  - { <<: *personal_data, branch: 'master', name: mttpla.github.io }
-  - { <<: *personal_data, branch: 'main', name: serverino }
-  - { <<: *personal_data, branch: 'main', name: techJournal }
- 
+  - { <<: *personal_data, branch: "master", name: mttpla.github.io }
+  - { <<: *personal_data, branch: "main", name: serverino }
+  - { <<: *personal_data, branch: "main", name: techJournal }
+
 # mas_common_apps:
 # - { name: 1Blocker, id: 1107421413 }
 # - { name: Bear, id: 1091189122 }
 # - { name: Pages, id: 409201541 }
 # - { name: Patterns, id: 429449079 }
 # - { name: Tweetbot, id: 1384080005 }
-
