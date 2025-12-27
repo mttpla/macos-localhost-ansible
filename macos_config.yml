@@ -12,6 +12,9 @@ chruby_lines: |
   source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
   source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
   chruby ruby-{{ ruby_version }}
+java_lines: |
+  export JAVA_HOME=$(/usr/libexec/java_home -v 25)
+  export PATH="$JAVA_HOME/bin:$PATH"
 postgresql15_lines: |
   export PATH="$(brew --prefix)/opt/postgresql@15/bin:$PATH"
 
@@ -108,7 +111,6 @@ homebrew_packages:
   - nvm # node
   - python
   - go
-  - openjdk
   # use sh.rustup.rs - rustup-init
   - cargo-lambda
   - aarch64-unknown-linux-gnu
