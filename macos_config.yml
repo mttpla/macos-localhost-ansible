@@ -52,11 +52,6 @@ terminal:
   profile: "Homebrew"
 
 homebrew_taps:
-  - homebrew/core
-  - homebrew/cask
-  - homebrew/cask-drivers
-  - homebrew/cask-fonts
-  - homebrew/cask-versions
   - github/gh
   - aws/tap
   - kdash-rs/kdash
