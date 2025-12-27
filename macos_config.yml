@@ -77,16 +77,18 @@ homebrew_apps:
   - intellij-idea-ce
   - kindle
   - microsoft-remote-desktop
-  - firefox-developer-edition
+  - firefox@developer-edition
   - openvpn-connect
   - postman
   - drawio
-  - teamviewer
+  # - teamviewer
   - zoom
   - obsidian
   - miro
-  - temurin8 #jdk8
-  - docker
+  - temurin
+  - temurin@8 #jdk8
+  - temurin@17
+  # - docker
   # todo
   # - gotosign desktop, missing
 
