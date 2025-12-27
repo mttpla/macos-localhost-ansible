@@ -122,8 +122,6 @@ homebrew_packages:
   - kdash
   - syncthing
   # extra dev
-  - openjdk@11
-  - openjdk@17
   - chruby
   - ruby-install
   - minikube
