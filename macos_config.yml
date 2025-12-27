@@ -14,7 +14,6 @@ chruby_lines: |
   chruby ruby-{{ ruby_version }}
 java_lines: |
   export JAVA_HOME=$(/usr/libexec/java_home -v 25)
-  export PATH="$JAVA_HOME/bin:$PATH"
 postgresql15_lines: |
   export PATH="$(brew --prefix)/opt/postgresql@15/bin:$PATH"
 
