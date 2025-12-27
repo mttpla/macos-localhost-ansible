@@ -112,7 +112,7 @@ homebrew_packages:
   - python
   - go
   - openjdk
-  - rustup-init
+  # use sh.rustup.rs - rustup-init
   - cargo-lambda
   - aarch64-unknown-linux-gnu
   - mongosh
