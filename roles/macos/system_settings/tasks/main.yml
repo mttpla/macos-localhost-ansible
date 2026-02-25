@@ -56,7 +56,15 @@
     block: '{{ java_lines }}'
     marker: '# {mark} java'
     create: yes
-  when: java_lines != None  
+  when: java_lines != None
+
+- name: add COPILOT_CUSTOM_INSTRUCTIONS_DIRS
+  blockinfile:
+    path: ~/.zshrc
+    block: '{{ copilot_custom_instructions_dirs_lines }}'
+    marker: '# {mark} COPILOT_CUSTOM_INSTRUCTIONS_DIRS'
+    create: yes
+  when: copilot_custom_instructions_dirs_lines != None
 
 - name: Set terminal profile
   shell: defaults write com.apple.Terminal 'Default Window Settings' {{terminal.profile}}

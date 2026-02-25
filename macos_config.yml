@@ -16,6 +16,8 @@ java_lines: |
   export JAVA_HOME=$(/usr/libexec/java_home -v 25)
 postgresql15_lines: |
   export PATH="$(brew --prefix)/opt/postgresql@15/bin:$PATH"
+copilot_custom_instructions_dirs_lines: |
+  export COPILOT_CUSTOM_INSTRUCTIONS_DIRS="$HOME/.copilot/custom_instructions"
 
 personal_data:
   &personal_data {
@@ -128,6 +130,7 @@ homebrew_packages:
   - minikube
   - codex
   - zed
+  - copilot-cli
 
 repositories:
   - { <<: *personal_data, branch: "master", name: mttpla.github.io }
