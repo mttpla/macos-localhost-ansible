@@ -15,16 +15,29 @@
     force: no
   loop: '{{ ssh_keys }}'
 
-- name: add ssh key to zshrc file
+- name: remove legacy ssh-add blocks from zshrc
   blockinfile:
     path: ~/.zshrc
-    block: |
-      ssh-add {{ item}} 2> /dev/null
     marker: '# {mark} SSH KEY {{ item }}'
+    state: absent
+  loop: '{{ ssh_keys }}'
+
+- name: configure ssh_config for keychain integration
+  blockinfile:
+    path: ~/.ssh/config
+    block: |
+      Host *
+        UseKeychain yes
+        AddKeysToAgent yes
+    marker: '# {mark} macOS Keychain'
     create: yes
-  with_fileglob:
-    - '~/.ssh/*id_ed25519'
-    - '~/.ssh/*id_rsa'
+    mode: '0600'
+
+- name: add ssh keys to macOS Keychain
+  command: ssh-add --apple-use-keychain {{ item }}
+  loop: '{{ ssh_keys }}'
+  changed_when: false
+  ignore_errors: true
 
 - name: add nvm line to zshrc file
   blockinfile:
@@ -42,7 +55,7 @@
     create: yes
   when: chruby_lines != None
 
-- name: add postgresql15 export path  to zshrc file
+- name: add postgresql15 export path to zshrc file
   blockinfile:
     path: ~/.zshrc
     block: '{{ postgresql15_lines }}'

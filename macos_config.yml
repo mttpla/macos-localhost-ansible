@@ -5,17 +5,21 @@ user: paoli
 prompt: "'%n@%m %/ %# '"
 nvm_lines: |
   export NVM_DIR="$HOME/.nvm"
-   [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  _nvm_load() {
+    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
+    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+  }
+  nvm()  { unfunction nvm node npm npx; _nvm_load; nvm "$@"; }
+  node() { unfunction nvm node npm npx; _nvm_load; node "$@"; }
+  npm()  { unfunction nvm node npm npx; _nvm_load; npm "$@"; }
+  npx()  { unfunction nvm node npm npx; _nvm_load; npx "$@"; }
 ruby_version: "3.2.2"
 chruby_lines: |
-  source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
-  source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
+  source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+  source /opt/homebrew/opt/chruby/share/chruby/auto.sh
   chruby ruby-{{ ruby_version }}
 java_lines: |
   export JAVA_HOME=$(/usr/libexec/java_home -v 25)
-postgresql15_lines: |
-  export PATH="$(brew --prefix)/opt/postgresql@15/bin:$PATH"
 copilot_custom_instructions_dirs_lines: |
   export COPILOT_CUSTOM_INSTRUCTIONS_DIRS="$HOME/.copilot/custom_instructions"
 
@@ -95,6 +99,7 @@ homebrew_apps:
   # - docker
   # todo
   # - gotosign desktop, missing
+  - claude-code
 
 homebrew_packages:
   # macos specific
@@ -116,7 +121,6 @@ homebrew_packages:
   - cargo-lambda
   - aarch64-unknown-linux-gnu
   - mongosh
-  - postgresql@15 #adding line to ~/.zshrc
   # dev-ops
   - kubernetes-cli
   - kubectx
@@ -131,6 +135,8 @@ homebrew_packages:
   - codex
   - zed
   - copilot-cli
+  - codex
+  - opencode
 
 repositories:
   - { <<: *personal_data, branch: "master", name: mttpla.github.io }

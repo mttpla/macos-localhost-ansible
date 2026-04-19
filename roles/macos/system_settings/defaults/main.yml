@@ -4,6 +4,7 @@ hostname: null
 ssh_keys: []
 prompt: null
 nvm_lines: null
+postgresql15_lines: null
 dock:
   position: BOTTOM
   size: 40
