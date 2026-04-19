@@ -69,10 +69,7 @@ homebrew_taps:
 homebrew_apps:
   # - dockutil need to be fixed
   - clipy
-  - telegram
-  - whatsapp
   - skype
-  - discord
   - google-chrome
   - firefox
   - libreoffice
@@ -82,7 +79,6 @@ homebrew_apps:
   - sourcetree
   - visual-studio-code
   - intellij-idea-ce
-  - kindle
   - firefox@developer-edition
   - openvpn-connect
   - postman
@@ -90,7 +86,6 @@ homebrew_apps:
   # - teamviewer
   - zoom
   - obsidian
-  - miro
   - temurin
   - temurin@8 #jdk8
   - temurin@17
@@ -139,6 +134,11 @@ homebrew_packages:
 
 homebrew_mas_apps:
   - { name: "Windows App", id: 1295203466 }
+  - { name: "Telegram", id: 747648890 }
+  - { name: "WhatsApp", id: 310633997 }
+  - { name: "Discord", id: 985746746 }
+  - { name: "Kindle", id: 302584613 }
+  - { name: "Miro", id: 1180074773 }
 
 repositories:
   - { <<: *personal_data, branch: "master", name: mttpla.github.io }
