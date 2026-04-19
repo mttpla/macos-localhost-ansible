@@ -27,6 +27,7 @@
     path: ~/.ssh/config
     block: |
       Host *
+        IgnoreUnknown UseKeychain
         UseKeychain yes
         AddKeysToAgent yes
     marker: '# {mark} macOS Keychain'
@@ -34,7 +35,7 @@
     mode: '0600'
 
 - name: add ssh keys to macOS Keychain
-  command: ssh-add --apple-use-keychain {{ item }}
+  command: /usr/bin/ssh-add --apple-use-keychain {{ item }}
   loop: '{{ ssh_keys }}'
   changed_when: false
   ignore_errors: true

@@ -25,7 +25,7 @@
     defaults write com.apple.dock wvous-bl-corner -int {{dock.hotCorners.bottomLeft}}
 
 - name: Show the Dock on position
-  shell: m dock position {{dock.position}}
+  shell: m dock --position {{dock.position | lower}}
 
 #- name: Set the default Dock items
 #  shell: dockutil --add "{{item.path}}" --replacing "{{item.name}}"

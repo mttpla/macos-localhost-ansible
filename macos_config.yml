@@ -73,7 +73,6 @@ homebrew_apps:
   - whatsapp
   - skype
   - discord
-  - gimp
   - google-chrome
   - firefox
   - libreoffice
@@ -84,7 +83,6 @@ homebrew_apps:
   - visual-studio-code
   - intellij-idea-ce
   - kindle
-  - microsoft-remote-desktop
   - firefox@developer-edition
   - openvpn-connect
   - postman

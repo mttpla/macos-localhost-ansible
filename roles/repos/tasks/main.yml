@@ -8,4 +8,4 @@
     version: "{{ item.branch }}"
     key_file: "{{ item.key }}"
   loop: "{{ repositories }}"
-    
+  ignore_errors: true
