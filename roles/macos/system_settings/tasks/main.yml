@@ -55,14 +55,6 @@
     create: yes
   when: chruby_lines != None
 
-- name: add postgresql15 export path to zshrc file
-  blockinfile:
-    path: ~/.zshrc
-    block: '{{ postgresql15_lines }}'
-    marker: '# {mark} postgresql15'
-    create: yes
-  when: postgresql15_lines != None
-
 - name: add JAVA_HOME to zshrc file
   blockinfile:
     path: ~/.zshrc
