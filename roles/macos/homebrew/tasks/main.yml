@@ -20,6 +20,13 @@
   loop: '{{ homebrew_apps }}'
   when: homebrew_apps|default([])|count > 0
 
+- name: Ensure Mac App Store apps
+  community.general.mas:
+    id: '{{ item.id }}'
+    state: present
+  loop: '{{ homebrew_mas_apps }}'
+  when: homebrew_mas_apps|default([])|count > 0
+
 - name: Ensure packages
   homebrew:
     name: '{{ item.name|default(item) }}'

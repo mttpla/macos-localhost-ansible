@@ -111,6 +111,7 @@ homebrew_packages:
   - nmap
   - openssl@3
   - youtube-dl
+  - bitwarden-cli
   # dev
   - nvm # node
   - python
@@ -136,14 +137,11 @@ homebrew_packages:
   - codex
   - opencode
 
+homebrew_mas_apps:
+  - { name: "Windows App", id: 1295203466 }
+
 repositories:
   - { <<: *personal_data, branch: "master", name: mttpla.github.io }
   - { <<: *personal_data, branch: "main", name: serverino }
   - { <<: *personal_data, branch: "main", name: techJournal }
 
-# mas_common_apps:
-# - { name: 1Blocker, id: 1107421413 }
-# - { name: Bear, id: 1091189122 }
-# - { name: Pages, id: 409201541 }
-# - { name: Patterns, id: 429449079 }
-# - { name: Tweetbot, id: 1384080005 }
