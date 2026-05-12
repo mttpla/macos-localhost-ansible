@@ -69,7 +69,6 @@ homebrew_taps:
 homebrew_apps:
   # - dockutil need to be fixed
   - clipy
-  - skype
   - google-chrome
   - firefox
   - libreoffice
@@ -83,7 +82,6 @@ homebrew_apps:
   - openvpn-connect
   - postman
   - drawio
-  # - teamviewer
   - zoom
   - obsidian
   - temurin
@@ -139,6 +137,7 @@ homebrew_mas_apps:
   - { name: "Discord", id: 985746746 }
   - { name: "Kindle", id: 302584613 }
   - { name: "Miro", id: 1180074773 }
+  - { name: "TeamViewer Remote Control", id: 692035811 }
 
 repositories:
   - { <<: *personal_data, branch: "master", name: mttpla.github.io }
