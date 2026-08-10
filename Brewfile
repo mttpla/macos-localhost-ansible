@@ -1,20 +1,9 @@
 tap "anomalyco/tap"
 tap "aovestdipaperino/tap", trusted: true
-tap "aws/tap"
-tap "cargo-lambda/tap", "https://github.com/cargo-lambda/homebrew-tap.git"
 tap "esolitos/ipa"
-tap "gromgit/fuse"
-tap "hpedrorodrigues/tools"
-tap "kdash-rs/kdash"
 tap "messense/macos-cross-toolchains"
 tap "mongodb/brew"
 tap "sdkman/tap"
-# CLI tool for working with Architecture Decision Records
-brew "adr-tools"
-# YAML Parser
-brew "libyaml"
-# Library for command-line editing
-brew "readline"
 # Automate deployment, configuration, and upgrading
 brew "ansible"
 # Tool for generating GNU Standards-compliant Makefiles
@@ -25,18 +14,8 @@ brew "aws-sam-cli"
 brew "awscli"
 # Microsoft Azure CLI 2.0
 brew "azure-cli"
-# Parser generator
-brew "bison"
-# Portable Foreign Function Interface library
-brew "libffi"
-# Open-source, cross-platform JavaScript runtime environment
-brew "node"
 # Secure and free password manager for all of your devices
 brew "bitwarden-cli"
-# Core application library for C
-brew "glib"
-# Ruby environment tool
-brew "chruby"
 # Cross-platform make
 brew "cmake"
 # Get a file from an HTTP, HTTPS or FTP server
@@ -51,16 +30,10 @@ brew "docutils"
 brew "eksctl"
 # GNU compiler collection
 brew "gcc"
-# TIFF library and utilities
-brew "libtiff"
-# GNU database manager
-brew "gdbm"
 # GitHub command-line tool
 brew "gh"
 # Distributed revision control system
 brew "git"
-# C library of Git core methods that is re-entrant and linkable
-brew "libgit2"
 # Highly customizable changelog generator
 brew "git-cliff"
 # Run gitlab pipelines locally as shell executor or docker executor
@@ -69,8 +42,6 @@ brew "gitlab-ci-local"
 brew "gitlab-runner"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
-# OpenType text shaping engine
-brew "harfbuzz"
 # Run and Test HTTP Requests with plain text and curl
 brew "hurl"
 # Generic command-line non-JVM Apache Kafka producer and consumer
@@ -91,16 +62,12 @@ brew "m-cli"
 brew "make"
 # Mac App Store command-line interface
 brew "mas"
-# Development kit for the Java programming language
-brew "openjdk"
 # Java-based project management
 brew "maven"
 # CLI utility that generates PDF from Markdown
 brew "md2pdf"
 # Run a Kubernetes cluster locally
 brew "minikube"
-# Replacement for ls, cp and other commands for object storage
-brew "minio-mc"
 # MongoDB CLI enables you to manage your MongoDB in the Cloud
 brew "mongocli"
 # MongoDB Shell to connect, configure, query, and work with your MongoDB database
@@ -117,8 +84,6 @@ brew "nvm"
 brew "openshift-cli"
 # OpenBSD freely-licensed SSH connectivity tools
 brew "openssh"
-# Cryptography and SSL/TLS Toolkit
-brew "openssl@1.1"
 # Port of pdftk in java
 brew "pdftk-java"
 # AI agent toolkit
@@ -139,12 +104,8 @@ brew "postgresql@15"
 brew "powershell", link: false
 # Easily download, build, install, upgrade, and uninstall Python packages
 brew "python-setuptools"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.11"
 # Utility that provides fast incremental file transfer
 brew "rsync"
-# Install Ruby, JRuby, Rubinius, TruffleRuby, or mruby
-brew "ruby-install"
 # Easily detect and prevent bugs and anti-patterns in your codebase
 brew "semgrep"
 # Launcher to analyze a project with SonarQube
@@ -161,8 +122,6 @@ brew "trivy"
 brew "watch"
 # Internet file retriever
 brew "wget"
-# Download YouTube videos from the command-line
-brew "youtube-dl"
 # Programming language designed for robustness, optimality, and clarity
 brew "zig"
 # UNIX shell (command interpreter)
@@ -171,8 +130,14 @@ brew "zsh"
 brew "anomalyco/tap/opencode", trusted: true
 # Code intelligence tool that builds semantic knowledge graphs from source code
 brew "aovestdipaperino/tap/tokensave", trusted: true
-# Agent orchestration platform
-cask "antigravity"
+# Non-interactive ssh password auth. Omitted by `brew bundle dump` (untrusted tap)
+brew "esolitos/ipa/sshpass"
+# Cross-compiler toolchain for linux/arm64. Omitted by `brew bundle dump`
+brew "messense/macos-cross-toolchains/aarch64-unknown-linux-gnu"
+# mongodump/mongorestore and friends. Omitted by `brew bundle dump`
+brew "mongodb/brew/mongodb-database-tools"
+# SDK manager for JVM languages. Omitted by `brew bundle dump`
+brew "sdkman/tap/sdkman-cli"
 # Terminal-based AI coding assistant
 cask "claude-code"
 # Clipboard extension app
@@ -181,24 +146,12 @@ cask "clipy"
 cask "codex"
 # Brings the power of Copilot coding agent directly to your terminal
 cask "copilot-cli"
-# UI for creating Windows installer ISO from UUPDump
-cask "crystalfetch"
-# Server and cloud storage browser
-cask "cyberduck"
-# Universal database tool and SQL client
-cask "dbeaver-community"
 # Voice and text chat software
 cask "discord"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
-# Developer platform
-cask "dotnet-sdk"
 # Online diagram software
 cask "drawio"
-# Web browser
-cask "firefox"
-# Web browser
-cask "firefox@developer-edition"
 # Free and open-source image editor
 cask "gimp"
 # Web browser
@@ -206,21 +159,10 @@ cask "google-chrome"
 # Java IDE by JetBrains
 cask "intellij-idea"
 cask "kindle"
-# Free cross-platform office suite, fresh version
-cask "libreoffice"
-# Digital note taking app
-cask "microsoft-onenote"
 # Online collaborative whiteboard platform
 cask "miro"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
-# Client program for the OpenVPN Access Server
-cask "openvpn-connect"
-# Collaboration platform for API development
-cask "postman"
-cask "powershell"
-# Music streaming service
-cask "spotify"
 # Text editor for code, markup and prose
 cask "sublime-text"
 # Remote access and connectivity software focused on security
@@ -237,18 +179,12 @@ cask "temurin@17"
 cask "temurin@21"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin@8"
-# Virtual machines UI using QEMU
-cask "utm"
 # Open-source code editor
 cask "visual-studio-code"
-# Video communication and virtual meeting platform
-cask "webex"
 # Native desktop client for WhatsApp
 cask "whatsapp"
 # Multiplayer code editor
 cask "zed"
-# Video communication and virtual meeting platform
-cask "zoom"
 mas "Bitwarden", id: 1352778147
 mas "Citrix Secure Access", id: 1338991513
 mas "GarageBand", id: 682658836
@@ -258,7 +194,6 @@ mas "Keynote", id: 361285480
 mas "Numbers", id: 361304891
 mas "Pages", id: 361309726
 mas "S3", id: 6447647340
-mas "WhatsApp", id: 310633997
 mas "Windows App", id: 1295203466
 mas "Xcode", id: 497799835
 vscode "ms-azuretools.vscode-containers"
