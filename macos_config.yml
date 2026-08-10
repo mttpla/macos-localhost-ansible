@@ -73,13 +73,13 @@ homebrew_apps:
   - firefox
   - libreoffice
   - sublime-text
-  - webex
+  # - webex
   - bitwarden
-  - sourcetree
-  - visual-studio-code
-  - intellij-idea-ce
-  - firefox@developer-edition
-  - openvpn-connect
+  # - sourcetree
+  # - visual-studio-code
+  # - intellij-idea-ce
+  # - firefox@developer-edition
+  # - openvpn-connect
   - postman
   - drawio
   - zoom
