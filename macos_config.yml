@@ -129,6 +129,7 @@ homebrew_packages:
   - copilot-cli
   - codex
   - opencode
+  - poppler
 
 homebrew_mas_apps:
   - { name: "Windows App", id: 1295203466 }
