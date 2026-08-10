@@ -62,6 +62,10 @@ Three things that bite:
 
 `homebrew_upgrade_all` (default `false`) gates a `brew upgrade` before the bundle runs. A bootstrap should not double as a package updater.
 
+**This machine cannot uninstall apps from `/Applications`.** It is corporate-managed: the account is in `staff`, not `admin`, `/Applications` is `root:admin drwxrwxr-x`, and endpoint policy blocks `sudo rm -R -f /Applications/<app>` outright — with or without `brew uninstall --cask --force`. Casks whose removal only needs `pkgutil` (`zoom`, `microsoft-onenote`, `dotnet-sdk`, `openvpn-connect`, `powershell`, `postman`) do uninstall; plain app bundles do not.
+
+So ten casks stay installed here even though the `Brewfile` deliberately omits them: `antigravity` `crystalfetch` `cyberduck` `dbeaver-community` `firefox` `firefox@developer-edition` `libreoffice` `spotify` `utm` `webex`. `brew bundle cleanup` will always list them — that is expected, not drift to fix. A blind `brew bundle dump --force` will put all ten straight back into the `Brewfile`, so always diff the result before committing it. Do not "tidy up" by deleting their receipts under `/opt/homebrew/Caskroom`: the apps would remain on disk and simply stop receiving updates. Removing them for real needs an IT request.
+
 **`macos/system_settings` edits `~/.zshrc` through `blockinfile` markers**, one marker per concern (`# BEGIN Prompt setting`, `# BEGIN NVM setting`, …). Adding a new shell export means adding a new `*_lines` variable plus a new `blockinfile` task with its own marker — reusing an existing marker silently overwrites that block. Setting a `*_lines` variable to `null` skips the task but leaves any previously written block in place; removing it needs an explicit `state: absent` task (see the "remove legacy ssh-add blocks" task for the pattern).
 
 **`repos` role has a dead default.** `roles/repos/defaults/main.yml` declares `repos: []`, but the task loops over `repositories`. The real definition lives in `macos_config.yml`, where entries merge a YAML anchor (`<<: *personal_data`) supplying the shared ssh key, git remote, and destination folder.
