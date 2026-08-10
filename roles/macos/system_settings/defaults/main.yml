@@ -4,7 +4,8 @@ hostname: null
 ssh_keys: []
 prompt: null
 nvm_lines: null
-postgresql15_lines: null
+java_lines: null
+copilot_custom_instructions_dirs_lines: null
 dock:
   position: BOTTOM
   size: 40

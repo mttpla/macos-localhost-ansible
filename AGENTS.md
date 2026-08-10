@@ -33,7 +33,7 @@ ansible-playbook macos.yml --step
 
 **The two playbooks load variables differently — this trips people up.**
 
-- `macos.yml` does `include_vars` on `macos_config.yml` with no `name:`, so its keys land in the global namespace and roles reference them bare: `homebrew_apps`, `dock`, `ssh_keys`, `repositories`.
+- `macos.yml` does `include_vars` on `macos_config.yml` with no `name:`, so its keys land in the global namespace and roles reference them bare: `dock`, `ssh_keys`, `repositories`.
 - `debian.yml` loads `debian_config.yml` under `name: config` and `ansible_secrets.yml` under `name: secret`, so its roles reference them namespaced: `config.hostname`, `config.packages`, `secret.sudoer_users`.
 
 When adding a variable, match the convention of the playbook you're touching.
@@ -44,9 +44,23 @@ When adding a variable, match the convention of the playbook you're touching.
 
 ## Role-specific gotchas
 
-**`macos/homebrew` is install-only.** Every task defaults to `state: present`. Deleting or commenting out an entry in `homebrew_apps` / `homebrew_packages` does **not** uninstall anything — it only stops managing it. To actually remove something, use `- { name: webex, state: absent }`.
+**Package lists live in the `Brewfile`, not in Ansible.** `macos_config.yml` holds only settings. The `macos/homebrew` role shells out to `brew bundle install --file=Brewfile --no-upgrade`; taps, formulae, casks, Mac App Store apps, VS Code extensions and a few `cargo`/`npm` globals are all declared there.
 
-Commented-out cask entries in `macos_config.yml` are deliberate: they are kept so they can be re-enabled by uncommenting. Keep the `# - name` spacing consistent when adding one. Mac App Store entries (`homebrew_mas_apps`) need the `mas` formula (already in `homebrew_packages`) and the `community.general` collection.
+Working with it:
+
+```bash
+brew bundle check --file=Brewfile      # something missing or outdated?
+brew bundle cleanup --file=Brewfile    # dry run: installed but NOT in the Brewfile
+brew bundle dump --force               # regenerate from the current machine
+```
+
+Three things that bite:
+
+- **`brew bundle install` is still install-only.** Dropping a line never uninstalls. Removal goes through `brew bundle cleanup --force`, which is destructive and deliberately not wired into the playbook.
+- **`check` conflates "missing" with "outdated"** — it reports `needs to be installed or updated` for packages that are present but stale, so a non-zero exit is not proof anything is absent.
+- **`dump` silently skips untrusted third-party taps.** Four packages (`sshpass`, `sdkman-cli`, `mongodb-database-tools`, the arm64 cross toolchain) were missing from the generated file and are now listed by hand. Re-check them after every `dump`, and note that `brew bundle install` refuses to run at all until those taps are trusted with `brew trust <tap>` — a per-machine setting that no Brewfile flag can grant.
+
+`homebrew_upgrade_all` (default `false`) gates a `brew upgrade` before the bundle runs. A bootstrap should not double as a package updater.
 
 **`macos/system_settings` edits `~/.zshrc` through `blockinfile` markers**, one marker per concern (`# BEGIN Prompt setting`, `# BEGIN NVM setting`, …). Adding a new shell export means adding a new `*_lines` variable plus a new `blockinfile` task with its own marker — reusing an existing marker silently overwrites that block. Setting a `*_lines` variable to `null` skips the task but leaves any previously written block in place; removing it needs an explicit `state: absent` task (see the "remove legacy ssh-add blocks" task for the pattern).
 

@@ -1,40 +1,12 @@
 ---
 
-# Homebrew Formula repositories to tap
-#
-# Example:
-#
-# homebrew_taps:
-#   - homebrew/core
-#   - homebrew/cask
-#   - homebrew/cask-fonts
-#   - homebrew/cask-versions
-homebrew_taps: []
+# Everything Homebrew installs lives in the Brewfile at the repo root.
+# Regenerate it from the current machine with:
+#   brew bundle dump --force
+# and see what is installed but not listed with:
+#   brew bundle cleanup
+brewfile_path: '{{ playbook_dir }}/Brewfile'
 
-# Applications to install via Homebrew casks
-#
-# Example:
-#
-# homebrew_apps:
-#   - 1password
-#   - font-fira-code
-#   - gpg-suite
-#   - iterm2
-#   - spotify
-#   - sublime-text
-homebrew_apps: []
-
-# Packages to install with Homebrew
-#
-# Example:
-#
-# homebrew_packages:
-#   - bash
-#   - curl
-#   - git
-#   - {name: make, install_options: "with-default-names" }
-#   - mysql@5.7
-homebrew_packages: []
-
-# Applications to install via Mac App Store (requires mas CLI)
-homebrew_mas_apps: []
+# Run `brew upgrade` before applying the Brewfile. Off by default: a bootstrap
+# should not double as a package updater.
+homebrew_upgrade_all: false

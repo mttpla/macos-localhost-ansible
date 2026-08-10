@@ -48,13 +48,11 @@
     create: yes
   when: nvm_lines != None
 
-- name: add chruby to zshrc file
+- name: remove chruby block from zshrc
   blockinfile:
     path: ~/.zshrc
-    block: '{{ chruby_lines }}'
     marker: '# {mark} chruby'
-    create: yes
-  when: chruby_lines != None
+    state: absent
 
 - name: add JAVA_HOME to zshrc file
   blockinfile:

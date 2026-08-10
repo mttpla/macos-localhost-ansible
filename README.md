@@ -15,9 +15,14 @@
 
 ## Playbook: MacOs localhost
 
-1. Edit `macos_config.yml`
-2. Edit the file `ansible_secrets.yml` following the `ansible_secrets_example.yml` file
+1. Edit `Brewfile` for packages and applications, `macos_config.yml` for settings
+2. Trust the third-party taps once per machine, otherwise `brew bundle` refuses to run:
+   `brew trust anomalyco/tap esolitos/ipa messense/macos-cross-toolchains mongodb/brew sdkman/tap`
 3. Run `ansible-playbook macos.yml --ask-become-pass`
+
+`ansible_secrets.yml` is only used by the Debian playbook.
+
+To see what is installed but not tracked in the `Brewfile`, run `brew bundle cleanup`.
 
 ## Playbook: Debian on AWS ECS
 

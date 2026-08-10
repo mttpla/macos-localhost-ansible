@@ -1,36 +1,30 @@
 ---
-- name: Upgrade homebrew and all packages
-  homebrew:
-    update_homebrew: true
-    upgrade_all: true
+- name: Check that Homebrew is installed
+  ansible.builtin.command: brew --version
+  register: brew_version
+  changed_when: false
+  failed_when: brew_version.rc != 0
 
-- name: Ensure taps
-  homebrew_tap:
-    name: '{{ item.name|default(item) }}'
-    state: "{{ item.state|default('present') }}"
-  loop: '{{ homebrew_taps }}'
-  when: homebrew_taps|default([])|count > 0
+- name: Check that the Brewfile exists
+  ansible.builtin.stat:
+    path: '{{ brewfile_path }}'
+  register: brewfile
 
-- name: Ensure apps
-  homebrew_cask:
-    name: '{{ item.name|default(item) }}'
-    state: "{{ item.state|default('present') }}"
-    install_options: '{{ item.install_options | default(omit) }}'
-    accept_external_apps: yes
-  loop: '{{ homebrew_apps }}'
-  when: homebrew_apps|default([])|count > 0
+- name: Fail when the Brewfile is missing
+  ansible.builtin.fail:
+    msg: 'Brewfile not found at {{ brewfile_path }}'
+  when: not brewfile.stat.exists
 
-- name: Ensure Mac App Store apps
-  community.general.mas:
-    id: '{{ item.id }}'
-    state: present
-  loop: '{{ homebrew_mas_apps }}'
-  when: homebrew_mas_apps|default([])|count > 0
+- name: Upgrade all Homebrew packages
+  ansible.builtin.command: brew upgrade
+  register: brew_upgrade
+  changed_when: brew_upgrade.stdout | length > 0
+  when: homebrew_upgrade_all
 
-- name: Ensure packages
-  homebrew:
-    name: '{{ item.name|default(item) }}'
-    state: "{{ item.state|default('present') }}"
-    install_options: '{{ item.install_options | default(omit) }}'
-  loop: '{{ homebrew_packages }}'
-  when: homebrew_packages|default([])|count > 0
+# Mac App Store entries need a signed-in Apple ID. `mas install` can only
+# install apps already associated with the account, so a brand new Mac must
+# be signed in to the same Apple ID before this runs.
+- name: Install everything listed in the Brewfile
+  ansible.builtin.command: brew bundle install --file={{ brewfile_path }} --no-upgrade
+  register: brew_bundle
+  changed_when: "'Installing' in brew_bundle.stdout"
