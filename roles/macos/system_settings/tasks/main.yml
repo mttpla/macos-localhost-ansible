@@ -71,7 +71,12 @@
   when: copilot_custom_instructions_dirs_lines != None
 
 - name: Set terminal profile
-  shell: defaults write com.apple.Terminal 'Default Window Settings' {{terminal.profile}}
+  community.general.osx_defaults:
+    domain: com.apple.Terminal
+    key: Default Window Settings
+    type: string
+    value: '{{ terminal.profile }}'
+    state: present
 
 - import_tasks: hostname.yml
 - import_tasks: finder.yml
