@@ -1,7 +1,9 @@
 ---
-computername: mttPC-2023
-hostname: mttPC-2023
-user: paoli
+# Left null on purpose: this machine is corporate-managed and renaming it
+# would break the IT inventory. Set both to rename a personal Mac.
+computername: null
+hostname: null
+user: matteo.paoli
 prompt: "'%n@%m %/ %# '"
 nvm_lines: |
   export NVM_DIR="$HOME/.nvm"
