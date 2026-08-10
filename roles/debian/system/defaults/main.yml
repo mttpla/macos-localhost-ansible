@@ -1,5 +1,0 @@
----
-config:
-  packages: []
-secret:
-  sudoer_users: []

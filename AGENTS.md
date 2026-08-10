@@ -4,16 +4,14 @@ This file provides guidance to coding agents when working with code in this repo
 
 ## What this is
 
-Ansible playbooks for provisioning two unrelated targets from one repo: the author's macOS workstation (run locally) and a Debian box on AWS EC2 (run over SSH). There is no build, no test suite, and no lint config — the playbooks *are* the deliverable, and the only real "run" is applying them to a live machine.
+An Ansible playbook that provisions the author's macOS workstation, run locally against `localhost`. There is no build, no test suite, and no lint config — the playbook *is* the deliverable, and the only real "run" is applying it to a live machine.
+
+A second playbook provisioned a Debian box on AWS EC2. It was unused for years and was deleted; `git log -- debian.yml` has it if it is ever wanted back.
 
 ## Commands
 
 ```bash
-# macOS workstation (localhost)
-ansible-playbook macos.yml --ask-become-pass
-
-# Debian on EC2
-ansible-playbook debian.yml
+ansible-playbook macos.yml
 
 # Validate without touching the machine
 ansible-playbook macos.yml --syntax-check
@@ -21,26 +19,21 @@ ansible-playbook macos.yml --list-tasks
 ansible-playbook macos.yml --check --diff        # dry run; some `shell:` tasks still execute
 
 # Run a subset — no tags are defined anywhere, so use these instead
-ansible-playbook macos.yml --start-at-task "Ensure packages"
+ansible-playbook macos.yml --start-at-task "Set the hot corners"
 ansible-playbook macos.yml --step
 ```
 
-`ansible.cfg` already points at both inventories (`hosts, aws_hosts`) and `roles_path = roles`, so run every command from the repo root.
+`ansible.cfg` already points at the `hosts` inventory and `roles_path = roles`, so run every command from the repo root.
 
 ## Architecture
 
-**Two independent entry points.** `macos.yml` targets `localhost` (roles: `macos/homebrew`, `macos/system_settings`, `repos`). `debian.yml` targets the `mttRemoteDesktop` host (roles: `debian/system`, `debian/xrdp`). They share nothing but the repo.
+**One entry point.** `macos.yml` targets `localhost` and runs three roles: `macos/homebrew`, `macos/system_settings`, `repos`.
 
-**The two playbooks load variables differently — this trips people up.**
+**Variables are global.** `macos.yml` does `include_vars` on `macos_config.yml` with no `name:`, so its keys land in the global namespace and roles reference them bare: `dock`, `ssh_keys`, `repositories`. No secrets are involved — nothing in the playbook reads `ansible_secrets.yml`.
 
-- `macos.yml` does `include_vars` on `macos_config.yml` with no `name:`, so its keys land in the global namespace and roles reference them bare: `dock`, `ssh_keys`, `repositories`.
-- `debian.yml` loads `debian_config.yml` under `name: config` and `ansible_secrets.yml` under `name: secret`, so its roles reference them namespaced: `config.hostname`, `config.packages`, `secret.sudoer_users`.
+**Inventory.** `hosts` pins localhost to `/opt/homebrew/bin/python3` (Apple Silicon path).
 
-When adding a variable, match the convention of the playbook you're touching.
-
-**Secrets.** `ansible_secrets.yml` is gitignored; copy `ansible_secrets_example.yml`. Only `debian.yml` loads it — the macOS playbook runs fine without it, despite what the README implies.
-
-**Inventory.** `hosts` pins localhost to `/opt/homebrew/bin/python3` (Apple Silicon path). `aws_hosts` hardcodes the EC2 public DNS name, which changes whenever the instance restarts — update it before running `debian.yml`.
+**Renaming the machine is off.** `computername` and `hostname` are `null`, and the `scutil` tasks are guarded by `when: != None`, so they skip. They were set to `mttPC-2023`, a personal Mac from 2023; on the corporate machine this repo now runs on, renaming would break the IT inventory. Set them only on a machine you own.
 
 ## Role-specific gotchas
 
@@ -70,4 +63,4 @@ So ten casks stay installed here even though the `Brewfile` deliberately omits t
 
 **`repos` role has a dead default.** `roles/repos/defaults/main.yml` declares `repos: []`, but the task loops over `repositories`. The real definition lives in `macos_config.yml`, where entries merge a YAML anchor (`<<: *personal_data`) supplying the shared ssh key, git remote, and destination folder.
 
-**Disabled by design:** the `dockutil`-based Dock tasks (`roles/macos/system_settings/tasks/dock.yml`) and the vendored `gantsign.visual-studio-code-extensions` role in `macos.yml` are both commented out. Dock position/size instead goes through `defaults write` and the `m` CLI (`m-cli` formula).
+**Disabled by design:** the `dockutil`-based Dock tasks (`roles/macos/system_settings/tasks/dock.yml`) and the vendored `gantsign.visual-studio-code-extensions` role in `macos.yml` are both commented out. Dock and Finder settings go through `community.general.osx_defaults`, which reads before writing — so `changed` means changed. `killall Finder` and `killall Dock` are handlers and fire only on a real change. Do not replace these with `shell: defaults write`: that always reports changed and makes a no-op run indistinguishable from a real one.
