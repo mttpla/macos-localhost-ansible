@@ -122,6 +122,8 @@ brew "trivy"
 brew "watch"
 # Internet file retriever
 brew "wget"
+# Friendly and fast tool for sending HTTP requests
+brew "xh"
 # Programming language designed for robustness, optimality, and clarity
 brew "zig"
 # UNIX shell (command interpreter)
