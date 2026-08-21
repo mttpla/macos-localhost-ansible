@@ -104,6 +104,8 @@ brew "postgresql@15"
 brew "powershell", link: false
 # Easily download, build, install, upgrade, and uninstall Python packages
 brew "python-setuptools"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
 # Utility that provides fast incremental file transfer
 brew "rsync"
 # Easily detect and prevent bugs and anti-patterns in your codebase
