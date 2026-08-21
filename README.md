@@ -26,36 +26,107 @@ are null by default.
 
 ## Adding a new package
 
-The `Brewfile` is the source of truth — nothing is declared in Ansible. Steps,
-in order:
+The `Brewfile` is the source of truth — nothing is declared in Ansible. Adding a
+package means **installing it and editing the `Brewfile` by hand**; there is no
+`brew bundle add` command. (`brew bundle dump --force` regenerates the whole
+file and is the wrong tool here — see the warnings in the next section.)
 
-1. **Find the exact name.** `brew search <term>`, then `brew info <name>` to
-   confirm it is what you want and to read its one-line description.
-2. **Add one line to the `Brewfile`**, in the right block and in alphabetical
-   order inside that block. `brew bundle dump` writes the blocks in this order —
-   `tap`, `brew`, `cask`, `mas`, `vscode` — so matching it keeps future diffs
-   small:
+Run every command from the repo root. The example adds `ripgrep`; replace the
+value of `PKG` and paste the rest as-is.
 
-   ```ruby
-   # Search tool like grep and The Silver Searcher
-   brew "ripgrep"                       # CLI formula
-   cask "obsidian"                      # GUI app
-   mas  "Keynote", id: 361285480        # Mac App Store app
-   vscode "ms-python.python"            # VS Code extension
-   ```
+### 1. Find the exact name and check what it is
 
-   The comment above each line is the formula's `desc` — `brew bundle dump`
-   generates it, so write it by hand to keep a later `dump` diff clean.
-3. **From a third-party tap?** Add the `tap "owner/repo"` line too, and run
-   `brew trust owner/repo` once on the machine. Without the trust, `brew bundle`
-   refuses to run at all — no Brewfile flag can grant it.
-4. **Apply it:** `ansible-playbook macos.yml`, or `brew bundle install
-   --file=Brewfile --no-upgrade` for just the packages.
-5. **Verify:** `brew list --versions <name>` and `which <name>`.
-6. Commit the `Brewfile` change.
+```bash
+PKG=ripgrep
+
+brew search "$PKG"     # candidates, if you are unsure of the spelling
+brew info "$PKG"       # description, version, dependencies, homepage
+```
+
+`brew info` failing means the name is wrong or the formula lives in a tap you
+have not added yet — see step 5.
+
+### 2. Install it
+
+```bash
+brew install "$PKG"                 # CLI formula
+# brew install --cask "$PKG"        # GUI app instead
+```
+
+### 3. Add the line to the Brewfile
+
+Each entry is two lines: a comment holding the package's one-line description,
+then the entry itself. `brew bundle dump` writes exactly that shape, so keeping
+it means a future `dump` diff stays clean.
+
+Print the two lines to paste:
+
+```bash
+printf '# %s\nbrew "%s"\n' "$(brew desc "$PKG" | sed 's/^[^:]*: //')" "$PKG"
+```
+
+Then open the file and paste them into the `brew` block, in alphabetical order:
+
+```bash
+${EDITOR:-open -e} Brewfile
+```
+
+Block order in the file is `tap`, `brew`, `cask`, `mas`, `vscode`, then the
+hand-kept `cargo`/`npm` notes — the same order `dump` uses. Tap-qualified
+formulae (`brew "owner/repo/name"`) sit in their own group after the plain ones.
+Position is cosmetic: `brew bundle` reads the file in any order, but a
+misplaced line turns every future `dump` into a noisy diff.
+
+**Or skip the editor.** This inserts the entry in the right place on its own,
+then shows you the result:
+
+```bash
+awk -v n="$PKG" -v d="$(brew desc "$PKG" | sed 's/^[^:]*: //')" '
+  !ins && /^#/             { c = c $0 "\n"; next }
+  !ins && /^(brew|cask) "/ { split($0, a, "\"")
+                             if ($1 == "cask" || a[2] ~ /\// || (a[2] "") > (n "")) {
+                               printf "# %s\nbrew \"%s\"\n", d, n; ins = 1 }
+                             printf "%s", c; c = ""; print; next }
+                           { printf "%s", c; c = ""; print }
+' Brewfile > Brewfile.new && mv Brewfile.new Brewfile
+
+git diff Brewfile
+```
+
+For a cask, change `brew "%s"` to `cask "%s"` and strip the parenthesised app
+name that `brew desc --cask` prepends:
+`brew desc --cask "$PKG" | sed 's/^[^:]*: //; s/^([^)]*) //'`.
+
+`mas` and `vscode` entries have no such helper — `mas list` and
+`code --list-extensions` give you the ids to paste.
+
+### 4. Verify and commit
+
+```bash
+brew list --versions "$PKG"          # installed?
+command -v "$PKG"                    # on PATH? (binary name may differ: ripgrep → rg)
+git diff Brewfile                    # exactly one entry added, nothing else moved
+git add Brewfile && git commit -m "Add $PKG to the Brewfile"
+```
+
+Nothing else needs to run on this machine — you already installed it in step 2.
+On a *different* machine the entry gets picked up by `ansible-playbook macos.yml`
+(or `brew bundle install --file=Brewfile --no-upgrade` for packages only).
+
+### 5. Only if the package comes from a third-party tap
+
+```bash
+brew tap owner/repo                  # add the tap
+brew trust owner/repo                # required, once per machine
+```
+
+Add a matching `tap "owner/repo"` line at the top of the `Brewfile`, and write
+the formula as `brew "owner/repo/name"`. Without the `brew trust`, `brew bundle`
+refuses to run at all — no `Brewfile` flag can grant it, which is why the taps
+are listed in "Run it" above.
 
 Removing a package is *not* the reverse: deleting the line uninstalls nothing.
-See "Keeping the Brewfile honest" below.
+See the next section.
 
 ## Keeping the Brewfile honest
 
