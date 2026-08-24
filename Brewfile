@@ -150,23 +150,11 @@ cask "clipy"
 cask "codex"
 # Brings the power of Copilot coding agent directly to your terminal
 cask "copilot-cli"
-# Voice and text chat software
-cask "discord"
-# App to build and share containerised applications and microservices
-cask "docker-desktop"
-# Online diagram software
-cask "drawio"
 # Free and open-source image editor
 cask "gimp"
-# Web browser
-cask "google-chrome"
-# Java IDE by JetBrains
-cask "intellij-idea"
 cask "kindle"
 # Online collaborative whiteboard platform
 cask "miro"
-# Knowledge base that works on top of a local folder of plain text Markdown files
-cask "obsidian"
 # Text editor for code, markup and prose
 cask "sublime-text"
 # Remote access and connectivity software focused on security
@@ -183,10 +171,6 @@ cask "temurin@17"
 cask "temurin@21"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin@8"
-# Open-source code editor
-cask "visual-studio-code"
-# Native desktop client for WhatsApp
-cask "whatsapp"
 # Multiplayer code editor
 cask "zed"
 mas "Bitwarden", id: 1352778147
