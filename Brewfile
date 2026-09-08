@@ -1,5 +1,6 @@
 tap "anomalyco/tap"
 tap "aovestdipaperino/tap", trusted: true
+tap "cargo-lambda/tap", trusted: true
 tap "esolitos/ipa"
 tap "messense/macos-cross-toolchains"
 tap "mongodb/brew"
@@ -136,6 +137,8 @@ brew "zsh"
 brew "anomalyco/tap/opencode", trusted: true
 # Code intelligence tool that builds semantic knowledge graphs from source code
 brew "aovestdipaperino/tap/tokensave", trusted: true
+# Cargo subcommand to work with AWS Lambda
+brew "cargo-lambda/tap/cargo-lambda", trusted: true
 # Non-interactive ssh password auth. Omitted by `brew bundle dump` (untrusted tap)
 brew "esolitos/ipa/sshpass"
 # Cross-compiler toolchain for linux/arm64. Omitted by `brew bundle dump`
