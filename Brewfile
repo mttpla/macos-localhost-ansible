@@ -26,6 +26,8 @@ brew "d2"
 brew "docker"
 # Text processing system for reStructuredText
 brew "docutils"
+# Embeddable SQL OLAP Database Management System
+brew "duckdb"
 # Simple command-line tool for creating clusters on Amazon EKS
 brew "eksctl"
 # GNU compiler collection
