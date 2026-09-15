@@ -89,6 +89,12 @@ If the app is *newer* than the receipt, the app self-updates and Homebrew can ne
 
 `gimp` `clipy` `miro` `sublime-text` `zed` `telegram` `teamviewer` were in the `Brewfile` and were removed from it at the same time; the rest never were.
 
+**Untracking leaves broken wrappers behind.** Casks that ship a CLI entry point symlink it into `/opt/homebrew/bin`, and deleting the receipt orphans that link — `firefox`, `gimp`, `soffice` and `utmctl` all pointed at paths that no longer existed, so typing the command just failed. `brew cleanup` reports them as `(broken link)`. After untracking anything, check:
+
+```sh
+find /opt/homebrew/bin -type l ! -exec test -e {} \; -print
+```
+
 **What stays tracked, and why it must:** casks Homebrew can genuinely still upgrade, because they never touch `/Applications`.
 
 - `claude-code` `codex` `copilot-cli` — artifact `binary`, installed into `/opt/homebrew/bin`. Nothing to purge, so upgrades just work.

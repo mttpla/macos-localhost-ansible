@@ -104,7 +104,7 @@ brew "poppler"
 # Object-relational database system
 brew "postgresql@15"
 # Command-line shell and scripting language
-brew "powershell", link: false
+brew "powershell"
 # Easily download, build, install, upgrade, and uninstall Python packages
 brew "python-setuptools"
 # Search tool like grep and The Silver Searcher
@@ -173,6 +173,7 @@ mas "Keynote", id: 361285480
 mas "Numbers", id: 361304891
 mas "Pages", id: 361309726
 mas "S3", id: 6447647340
+mas "WhatsApp", id: 310633997
 mas "Windows App", id: 1295203466
 mas "Xcode", id: 497799835
 vscode "ms-azuretools.vscode-containers"
