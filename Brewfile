@@ -154,8 +154,6 @@ cask "codex"
 # Brings the power of Copilot coding agent directly to your terminal
 cask "copilot-cli"
 cask "kindle"
-# Remote access and connectivity software focused on security
-cask "teamviewer"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin"
 # JDK from the Eclipse Foundation (Adoptium)

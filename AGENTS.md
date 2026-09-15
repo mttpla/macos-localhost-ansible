@@ -61,7 +61,7 @@ So five casks stay installed here even though the `Brewfile` deliberately omits 
 
 ### Casks deliberately untracked
 
-Eleven casks had their receipt under `/opt/homebrew/Caskroom` deleted on purpose. Homebrew no longer knows about them, so they no longer appear in `brew outdated` or `brew bundle cleanup`. **Do not re-add them to the `Brewfile`** — `brew bundle install` would reinstall into `/Applications` and recreate the exact problem. The apps themselves are untouched and still work.
+Twelve casks had their receipt under `/opt/homebrew/Caskroom` deleted on purpose. Homebrew no longer knows about them, so they no longer appear in `brew outdated` or `brew bundle cleanup`. **Do not re-add them to the `Brewfile`** — `brew bundle install` would reinstall into `/Applications` and recreate the exact problem. The apps themselves are untouched and still work.
 
 The diagnostic that decides whether a cask belongs here: compare the Caskroom receipt version against `CFBundleShortVersionString` of the real app.
 
@@ -85,20 +85,41 @@ If the app is *newer* than the receipt, the app self-updates and Homebrew can ne
 | `zed` | 2026-09-15 | self-updating: receipt 1.1.6, app 1.19.2 |
 | `utm` | 2026-09-15 | no `UTM.app` anywhere on disk; the receipt only held a 1.1G orphaned stage copy |
 | `telegram` | 2026-09-15 | tracked the wrong app entirely — see below |
+| `teamviewer` | 2026-09-15 | installed and updated by IT via Jamf, not by brew — see below |
 
-`gimp` `clipy` `miro` `sublime-text` `zed` `telegram` were in the `Brewfile` and were removed from it at the same time; the rest never were.
+`gimp` `clipy` `miro` `sublime-text` `zed` `telegram` `teamviewer` were in the `Brewfile` and were removed from it at the same time; the rest never were.
 
 **What stays tracked, and why it must:** casks Homebrew can genuinely still upgrade, because they never touch `/Applications`.
 
-- `claude-code` `codex` `copilot-cli` — artifact `binary`, installed into `/opt/homebrew/bin`.
-- `temurin` `temurin@8` `temurin@11` `temurin@17` `temurin@21` — artifact `pkg` with an `uninstall` stanza, removed via `pkgutil`.
-- `crystalfetch` `kindle` — receipt and app still in step.
+- `claude-code` `codex` `copilot-cli` — artifact `binary`, installed into `/opt/homebrew/bin`. Nothing to purge, so upgrades just work.
+- `temurin` `temurin@8` `temurin@11` `temurin@17` `temurin@21` — artifact `pkg`, and crucially **no `delete` path under `/Applications`**. Untracking them would trade a working update channel for nothing.
+- `crystalfetch` `kindle` — safe only by accident: plain `app` casks whose receipts happen to be in step, with no upgrade pending. The first upstream release walks them into the same wall. Not exceptions — unexploded.
 
-Untracking any of these would trade a working update channel for nothing.
+**The discriminant is the `delete` stanza, not `pkg` vs `app`.** `pkg` and `delete` coexist: `teamviewer` was a `pkg` cask, and its `uninstall` ran `launchctl`, `quit`, `pkgutil --forget`, *then* `delete: /Applications/TeamViewer.app`. The first three steps succeed, the fourth is blocked — leaving the app quit, its services unloaded, and its system pkg receipts forgotten, which is worse than not trying. So never "just test" an upgrade before checking the stanza:
 
-One is still undecided and was left tracked on purpose:
+```sh
+brew info --cask <name> --json=v2 | python3 -c 'import json,sys; print(json.load(sys.stdin)["casks"][0]["artifacts"])'
+```
 
-- `teamviewer` — receipt 15.42.4 but the app is 15.81.6, so it self-updates like the untracked group. It is a `pkg` cask with an `uninstall` stanza, though, so Homebrew may be able to upgrade it where a plain app bundle cannot. Try a single `brew upgrade --cask teamviewer` before deciding.
+Note this contradicts the `pkgutil` claim in the paragraph above: `zoom` and `openvpn-connect` also carry `delete` paths under `/Applications`, yet were recorded as uninstalling cleanly. Neither is installed any more, so the discrepancy could not be tested — treat that older claim as unverified.
+
+### `teamviewer` is deployed and updated by IT
+
+This machine is DEP-enrolled in Jamf (`adesso.jamfcloud.com`), and TeamViewer arrives through that channel, not Homebrew:
+
+```
+2023-05-27  brew installs teamviewer 15.42.4       (receipt + 75M staged copy)
+2026-04-07  IT installs 15.76.5 via SilentInstaller
+2026-09-07  IT updates to 15.81.6                  (system pkgutil receipt)
+```
+
+Homebrew's receipt sat at 15.42.4 for three years while the app moved on without it. Corroborating evidence: `com.teamviewer.teamviewerSilentInstaller` in `pkgutil --pkgs` (a mass-deployment marker), `/Library/Preferences/com.teamviewer.teamviewer.preferences.plist` owned `root:wheel`, and six `com.teamviewer.*` launchd jobs under `/Library`.
+
+The app was already at 15.81.6 — identical to the cask's upstream version — so the upgrade had nothing to gain and everything to lose.
+
+`/Applications/TeamViewerQS.app` (QuickSupport) 15.81.6 is part of the same deployment, signed in the same second as the main client. Homebrew reports the `teamviewer-quicksupport` cask as not installed. **Do not add it to the `Brewfile`** — IT owns it.
+
+Do not uninstall or reinstall TeamViewer from the vendor site: it is the IT remote-support channel, and replacing it would drop the managed configuration.
 
 ### `telegram` tracked a different app than the one installed
 
