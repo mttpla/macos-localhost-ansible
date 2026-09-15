@@ -57,12 +57,48 @@ Three things that bite:
 
 **This machine cannot uninstall apps from `/Applications`.** It is corporate-managed: the account is in `staff`, not `admin`, `/Applications` is `root:admin drwxrwxr-x`, and endpoint policy blocks `sudo rm -R -f /Applications/<app>` outright — with or without `brew uninstall --cask --force`. Casks whose removal only needs `pkgutil` (`zoom`, `microsoft-onenote`, `dotnet-sdk`, `openvpn-connect`, `powershell`, `postman`) do uninstall; plain app bundles do not.
 
-So nine casks stay installed here even though the `Brewfile` deliberately omits them: `antigravity` `crystalfetch` `cyberduck` `dbeaver-community` `firefox` `firefox@developer-edition` `spotify` `utm` `webex`. `brew bundle cleanup` will always list them — that is expected, not drift to fix. A blind `brew bundle dump --force` will put all nine straight back into the `Brewfile`, so always diff the result before committing it. Do not "tidy up" by deleting their receipts under `/opt/homebrew/Caskroom`: the apps would remain on disk and simply stop receiving updates. Removing them for real needs an IT request.
+So five casks stay installed here even though the `Brewfile` deliberately omits them: `antigravity` `crystalfetch` `dbeaver-community` `firefox@developer-edition` `webex`. `brew bundle cleanup` will always list them — that is expected, not drift to fix. A blind `brew bundle dump --force` will put all five straight back into the `Brewfile`, so always diff the result before committing it. Removing them for real needs an IT request.
 
-Two more casks were **deliberately untracked** by deleting their receipt under `/opt/homebrew/Caskroom` — the one thing the paragraph above says not to do casually. Both hit the same dead end: `brew upgrade` stages the new version, then fails purging the old one because `sudo rm -R -f /Applications/<app>` is blocked, so the cask is permanently `outdated` and every `brew upgrade` re-runs the same failure. Deleting the receipt is the only way to stop the loop without IT. Homebrew no longer tracks or updates either app; both still sit in `/Applications`, and removing them for real still needs an IT request.
+### Casks deliberately untracked
 
-- `libreoffice` — untracked 2026-09-09. Was never in the `Brewfile`.
-- `gimp` — untracked 2026-09-15, and its `cask "gimp"` line removed from the `Brewfile` at the same time. The app in `/Applications` is 3.2.6 (the upgrade *did* land); only the receipt was stuck at 3.2.4. A `brew bundle dump --force` will try to put `gimp` back — it must not.
+Ten casks had their receipt under `/opt/homebrew/Caskroom` deleted on purpose. Homebrew no longer knows about them, so they no longer appear in `brew outdated` or `brew bundle cleanup`. **Do not re-add them to the `Brewfile`** — `brew bundle install` would reinstall into `/Applications` and recreate the exact problem. The apps themselves are untouched and still work.
+
+The diagnostic that decides whether a cask belongs here: compare the Caskroom receipt version against `CFBundleShortVersionString` of the real app.
+
+```sh
+brew list --cask --versions <cask>
+defaults read "/Applications/<App>.app/Contents/Info.plist" CFBundleShortVersionString
+```
+
+If the app is *newer* than the receipt, the app self-updates and Homebrew can never catch up — upgrading it means purging `/Applications/<App>.app`, which endpoint policy blocks. The receipt is then permanently stale and every `brew upgrade` retries the same failure.
+
+| cask | untracked | reason |
+|---|---|---|
+| `libreoffice` | 2026-09-09 | upgrade loop: stale app at target path, purge needs interactive sudo |
+| `gimp` | 2026-09-15 | upgrade loop: receipt pinned at 3.2.4 while `/Applications` was already 3.2.6 |
+| `clipy` | 2026-09-15 | self-updating: receipt 1.2.1, app 1.3.0 |
+| `cyberduck` | 2026-09-15 | self-updating: receipt 8.7.2, app 9.5.4 |
+| `firefox` | 2026-09-15 | self-updating: receipt 153.0.1, app 155.0.1 |
+| `miro` | 2026-09-15 | self-updating: receipt 0.7.32, app 0.11.168 |
+| `spotify` | 2026-09-15 | self-updating |
+| `sublime-text` | 2026-09-15 | self-updating: receipt 4143, app Build 4200 |
+| `zed` | 2026-09-15 | self-updating: receipt 1.1.6, app 1.19.2 |
+| `utm` | 2026-09-15 | no `UTM.app` anywhere on disk; the receipt only held a 1.1G orphaned stage copy |
+
+`gimp` `clipy` `miro` `sublime-text` `zed` were in the `Brewfile` and were removed from it at the same time; the rest never were.
+
+**What stays tracked, and why it must:** casks Homebrew can genuinely still upgrade, because they never touch `/Applications`.
+
+- `claude-code` `codex` `copilot-cli` — artifact `binary`, installed into `/opt/homebrew/bin`.
+- `temurin` `temurin@8` `temurin@11` `temurin@17` `temurin@21` — artifact `pkg` with an `uninstall` stanza, removed via `pkgutil`.
+- `crystalfetch` `kindle` — receipt and app still in step.
+
+Untracking any of these would trade a working update channel for nothing.
+
+Two are still undecided and were left tracked on purpose:
+
+- `teamviewer` — receipt 15.42.4 but the app is 15.81.6, so it self-updates like the untracked group. It is a `pkg` cask with an `uninstall` stanza, though, so Homebrew may be able to upgrade it where a plain app bundle cannot. Try a single `brew upgrade --cask teamviewer` before deciding.
+- `telegram` — receipt 9.6.3 vs app 7.1.3; the two numbering schemes are not comparable, so the staleness test above gives no answer. It does show up in `brew outdated`.
 
 **`macos/system_settings` edits `~/.zshrc` through `blockinfile` markers**, one marker per concern (`# BEGIN Prompt setting`, `# BEGIN NVM setting`, …). Adding a new shell export means adding a new `*_lines` variable plus a new `blockinfile` task with its own marker — reusing an existing marker silently overwrites that block. Setting a `*_lines` variable to `null` skips the task but leaves any previously written block in place; removing it needs an explicit `state: absent` task (see the "remove legacy ssh-add blocks" task for the pattern).
 

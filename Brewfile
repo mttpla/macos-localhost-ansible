@@ -149,17 +149,11 @@ brew "mongodb/brew/mongodb-database-tools"
 brew "sdkman/tap/sdkman-cli"
 # Terminal-based AI coding assistant
 cask "claude-code"
-# Clipboard extension app
-cask "clipy"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 # Brings the power of Copilot coding agent directly to your terminal
 cask "copilot-cli"
 cask "kindle"
-# Online collaborative whiteboard platform
-cask "miro"
-# Text editor for code, markup and prose
-cask "sublime-text"
 # Remote access and connectivity software focused on security
 cask "teamviewer"
 # Messaging app with a focus on speed and security
@@ -174,8 +168,6 @@ cask "temurin@17"
 cask "temurin@21"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin@8"
-# Multiplayer code editor
-cask "zed"
 mas "Bitwarden", id: 1352778147
 mas "Citrix Secure Access", id: 1338991513
 mas "GarageBand", id: 682658836
