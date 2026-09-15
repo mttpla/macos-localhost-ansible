@@ -61,7 +61,7 @@ So five casks stay installed here even though the `Brewfile` deliberately omits 
 
 ### Casks deliberately untracked
 
-Ten casks had their receipt under `/opt/homebrew/Caskroom` deleted on purpose. Homebrew no longer knows about them, so they no longer appear in `brew outdated` or `brew bundle cleanup`. **Do not re-add them to the `Brewfile`** — `brew bundle install` would reinstall into `/Applications` and recreate the exact problem. The apps themselves are untouched and still work.
+Eleven casks had their receipt under `/opt/homebrew/Caskroom` deleted on purpose. Homebrew no longer knows about them, so they no longer appear in `brew outdated` or `brew bundle cleanup`. **Do not re-add them to the `Brewfile`** — `brew bundle install` would reinstall into `/Applications` and recreate the exact problem. The apps themselves are untouched and still work.
 
 The diagnostic that decides whether a cask belongs here: compare the Caskroom receipt version against `CFBundleShortVersionString` of the real app.
 
@@ -84,8 +84,9 @@ If the app is *newer* than the receipt, the app self-updates and Homebrew can ne
 | `sublime-text` | 2026-09-15 | self-updating: receipt 4143, app Build 4200 |
 | `zed` | 2026-09-15 | self-updating: receipt 1.1.6, app 1.19.2 |
 | `utm` | 2026-09-15 | no `UTM.app` anywhere on disk; the receipt only held a 1.1G orphaned stage copy |
+| `telegram` | 2026-09-15 | tracked the wrong app entirely — see below |
 
-`gimp` `clipy` `miro` `sublime-text` `zed` were in the `Brewfile` and were removed from it at the same time; the rest never were.
+`gimp` `clipy` `miro` `sublime-text` `zed` `telegram` were in the `Brewfile` and were removed from it at the same time; the rest never were.
 
 **What stays tracked, and why it must:** casks Homebrew can genuinely still upgrade, because they never touch `/Applications`.
 
@@ -95,10 +96,25 @@ If the app is *newer* than the receipt, the app self-updates and Homebrew can ne
 
 Untracking any of these would trade a working update channel for nothing.
 
-Two are still undecided and were left tracked on purpose:
+One is still undecided and was left tracked on purpose:
 
 - `teamviewer` — receipt 15.42.4 but the app is 15.81.6, so it self-updates like the untracked group. It is a `pkg` cask with an `uninstall` stanza, though, so Homebrew may be able to upgrade it where a plain app bundle cannot. Try a single `brew upgrade --cask teamviewer` before deciding.
-- `telegram` — receipt 9.6.3 vs app 7.1.3; the two numbering schemes are not comparable, so the staleness test above gives no answer. It does show up in `brew outdated`.
+
+### `telegram` tracked a different app than the one installed
+
+Worth reading before trusting any version comparison here, because the version numbers alone actively mislead.
+
+The `telegram` cask is **Telegram for macOS** (macos.telegram.org, bundle id `ru.keepcoder.Telegram`), installed May 2023 with receipt 9.6.3 and now at 12.10 upstream. But `/Applications/Telegram.app` is **Telegram Desktop** (tdesktop, bundle id `com.tdesktop.Telegram`), version 7.1.3, signed by Telegram FZ-LLC in August 2026. Two separate projects that happen to install to the same path under the same name — so `brew outdated` reporting `9.6.3 != 12.10` said nothing at all about the app actually on disk.
+
+Telegram Desktop self-updates: `~/Library/Application Support/Telegram Desktop/tupdates/temp/` already held Telegram 7.2.5, staged and waiting for a restart. The Caskroom entry was 8K — a bare symlink to `/Applications/Telegram.app`, no staged copy.
+
+The reason untracking mattered more than usual: `brew upgrade --cask telegram` would have installed Telegram for macOS *over* `/Applications/Telegram.app`, replacing Telegram Desktop with a different client. The two keep their data in different locations, so the session and config would have looked wiped.
+
+Check `CFBundleIdentifier`, not just the version, whenever a cask's version gap looks implausible:
+
+```sh
+defaults read "/Applications/<App>.app/Contents/Info.plist" CFBundleIdentifier
+```
 
 **`macos/system_settings` edits `~/.zshrc` through `blockinfile` markers**, one marker per concern (`# BEGIN Prompt setting`, `# BEGIN NVM setting`, …). Adding a new shell export means adding a new `*_lines` variable plus a new `blockinfile` task with its own marker — reusing an existing marker silently overwrites that block. Setting a `*_lines` variable to `null` skips the task but leaves any previously written block in place; removing it needs an explicit `state: absent` task (see the "remove legacy ssh-add blocks" task for the pattern).
 

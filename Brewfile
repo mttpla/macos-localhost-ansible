@@ -156,8 +156,6 @@ cask "copilot-cli"
 cask "kindle"
 # Remote access and connectivity software focused on security
 cask "teamviewer"
-# Messaging app with a focus on speed and security
-cask "telegram"
 # JDK from the Eclipse Foundation (Adoptium)
 cask "temurin"
 # JDK from the Eclipse Foundation (Adoptium)
