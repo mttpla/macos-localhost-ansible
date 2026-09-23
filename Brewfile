@@ -2,6 +2,7 @@ tap "anomalyco/tap"
 tap "aovestdipaperino/tap", trusted: true
 tap "cargo-lambda/tap", trusted: true
 tap "esolitos/ipa"
+tap "jundot/omlx", "https://github.com/jundot/omlx", trusted: true
 tap "messense/macos-cross-toolchains"
 tap "mongodb/brew"
 tap "sdkman/tap"
@@ -141,6 +142,8 @@ brew "aovestdipaperino/tap/tokensave", trusted: true
 brew "cargo-lambda/tap/cargo-lambda", trusted: true
 # Non-interactive ssh password auth. Omitted by `brew bundle dump` (untrusted tap)
 brew "esolitos/ipa/sshpass"
+# LLM inference server for Apple Silicon. Runs as a service on port 8000
+brew "jundot/omlx/omlx", trusted: true, restart_service: :changed
 # Cross-compiler toolchain for linux/arm64. Omitted by `brew bundle dump`
 brew "messense/macos-cross-toolchains/aarch64-unknown-linux-gnu"
 # mongodump/mongorestore and friends. Omitted by `brew bundle dump`
